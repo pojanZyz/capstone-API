@@ -5,6 +5,11 @@ app.get("/", (req, res) => {
   res.send("hello world");
 });
 
+
+app.get("/mamang",(req,res)=>{
+    res.send("hello world")
+})
+
 app.get("/about", (req, res) => {
   res.send("about page");
 });
@@ -12,3 +17,4 @@ app.get("/about", (req, res) => {
 app.listen(port, () => {
   console.log("server started");
 });
+
