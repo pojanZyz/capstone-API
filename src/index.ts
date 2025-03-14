@@ -8,7 +8,6 @@ const jwt = require("jsonwebtoken");
 dotenv.config();
 const prisma = new PrismaClient();
 const app = express();
-const router = express.Router();
 app.use(express.json());
 
 interface UserData {
@@ -67,7 +66,7 @@ const accessValidation = (req : ValidationRequest, res : Response, next : NextFu
     next();
 };
 
-router.post("/register", async (req : Request, res : Response) => {
+app.post("/register", async (req : Request, res : Response) => {
     try {
         const { name, password, email } = req.body;
         const hashedPass = await bcrypt.hash(password, 10);
@@ -80,7 +79,7 @@ router.post("/register", async (req : Request, res : Response) => {
     }
 });
 
-router.post("/login", async (req : Request, res : Response) => {
+app.post("/login", async (req : Request, res : Response) => {
     const { email, password } = req.body;
     const user = await prisma.users.findUnique({ where: { email } });
 
@@ -104,7 +103,7 @@ router.post("/login", async (req : Request, res : Response) => {
     }
 });
 
-router.post("/users", accessValidation, async (req : Request, res : Response) => {
+app.post("/users", accessValidation, async (req : Request, res : Response) => {
     try {
         const { name, password, email } = req.body;
         const result = await prisma.users.create({ data: { name, password, email, role: "user" } });
@@ -114,7 +113,7 @@ router.post("/users", accessValidation, async (req : Request, res : Response) =>
     }
 });
 
-router.get("/users", accessValidation, async (req : Request, res : Response) => {
+app.get("/users", accessValidation, async (req : Request, res : Response) => {
     try {
         const result = await prisma.users.findMany();
         res.json({ message: "GET ALL USERS SUCCESS", data: result });
@@ -123,7 +122,7 @@ router.get("/users", accessValidation, async (req : Request, res : Response) => 
     }
 });
 
-router.patch("/users/update/:id", accessValidation, async (req : Request, res : Response) => {
+app.patch("/users/update/:id", accessValidation, async (req : Request, res : Response) => {
     try {
         const { id } = req.params;
         const { name, password, email } = req.body;
@@ -138,7 +137,7 @@ router.patch("/users/update/:id", accessValidation, async (req : Request, res : 
     }
 });
 
-router.delete("/users/:id", accessValidation, async (req : Request, res : Response) => {
+app.delete("/users/:id", accessValidation, async (req : Request, res : Response) => {
     try {
         const { id } = req.params;
         const result = await prisma.users.delete({ where: { id: parseInt(id) } });
@@ -151,7 +150,7 @@ router.delete("/users/:id", accessValidation, async (req : Request, res : Respon
     }
 });
 
-app.use("/api", router);
+app.use("/api", app);
 app.listen(4000, () => {
     console.log("server berjalan di port 4000");
 });
