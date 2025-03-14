@@ -224,7 +224,9 @@ router.delete('/users/:id', accessValidation, async(req,res)=>{
 })
 
 app.use('/api', router);
-
+app.use('/',(req,res)=>{
+    res.status(200);
+})
 app.listen(4000, ()=>{
     console.log("server berjalan di port 4000")
 })
