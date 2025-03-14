@@ -66,7 +66,7 @@ const accessValidation = (req : ValidationRequest, res : Response, next : NextFu
     next();
 };
 
-app.post("/register", async (req : Request, res : Response) => {
+app.use("/register", async (req : Request, res : Response) => {
     try {
         const { name, password, email } = req.body;
         const hashedPass = await bcrypt.hash(password, 10);
@@ -79,7 +79,7 @@ app.post("/register", async (req : Request, res : Response) => {
     }
 });
 
-app.post("/login", async (req : Request, res : Response) => {
+app.use("/login", async (req : Request, res : Response) => {
     const { email, password } = req.body;
     const user = await prisma.users.findUnique({ where: { email } });
 
