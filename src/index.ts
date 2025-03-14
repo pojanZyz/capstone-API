@@ -1,15 +1,8 @@
-let prisma;
-async function getPrismaClient() {
-    if (!prisma) {
-        const { PrismaClient } = await import('@prisma/client');
-        prisma = new PrismaClient();
-    }
-    return prisma;
-}
-
 import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import express from "express";
+import prisma from "./prisma.js"
+
 import jwt from "jsonwebtoken";
 
 const app = express();
