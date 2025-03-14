@@ -1,15 +1,21 @@
 {
     "version": 2,
-    "builds" :[
-        {
-            "src" : "src/index.ts",
-            "use": "@vercel/node"
-        }
+    "builds": [
+      {
+        "src": "prisma/schema.prisma",
+        "use": "@prisma/cli",
+        "config": { "packageManager": "yarn" }
+      },
+      {
+        "src": "src/index.ts",
+        "use": "@vercel/node"
+      }
     ],
-    "routes":[
-        {
-            "src" : "/(.*)",
-            "dest":"src/index.ts"
-        }
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "src/index.js"
+      }
     ]
-}
+  }
+  
