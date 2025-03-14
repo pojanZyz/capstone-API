@@ -150,7 +150,6 @@ app.delete("/users/:id", accessValidation, async (req : Request, res : Response)
     }
 });
 
-app.use("/api", app);
 app.listen(4000, () => {
     console.log("server berjalan di port 4000");
 });
