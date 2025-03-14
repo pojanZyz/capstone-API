@@ -1,18 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "./src",
-    "outDir": "./dist",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "target": "ES2020",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "noImplicitAny": false
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true
   },
-  "include": ["src", "prisma.ts"],
-  "exclude": ["node_modules", "dist"]
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }

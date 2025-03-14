@@ -25,5 +25,5 @@
     "prisma": "^6.5.0",
     "typescript": "^5.8.2"
   },
-  "type": "module"
+  "type": "commonjs"
 }
