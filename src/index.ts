@@ -126,7 +126,7 @@ app.post("/users", accessValidation, async (req : Request, res : Response) => {
     try {
         const { username, password, email } = req.body;
         const hashedPass = await bcrypt.hash(password, 10);
-        const result = await prisma.users.create({ data: { username, password, email, role: "user" } });
+        const result = await prisma.users.create({ data: { username, password : hashedPass, email, role: "user" } });
         res.json({ message: "CREATE USER SUCCESS", data: result });
     } catch (error) {
         res.json({ message: "CREATE USER UNSUCCESS", error });
