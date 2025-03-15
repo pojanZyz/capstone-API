@@ -4,10 +4,12 @@ const dotenv = require("dotenv");
 const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");                                
+const cors = require("cors");
 
 dotenv.config();
 const prisma = new PrismaClient();
 const app = express();
+app.use(cors()); // Mengizinkan semua domain mengakses API
 app.use(express.json());
 
 interface UserData {
