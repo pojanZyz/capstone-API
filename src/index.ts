@@ -71,11 +71,12 @@ app.post("/register", async (req : Request, res : Response) => {
         const { username, password, email } = req.body;
         const hashedPass = await bcrypt.hash(password, 10);
         const result = await prisma.users.create({
-            data: { username, password: hashedPass, email, role: "user" }
+            data: { username, password: hashedPass, email}
         });
         res.json({ message: "REGISTER IS SUCCESS", data: result });
     } catch (error) {
-        res.json({ message: "REGISTER IS UNSUCCESS", data: error });
+        res.json({ message: "REGISTER IS UNSUCCESS", data: error
+         });
     }
 });
 
