@@ -66,32 +66,19 @@ const accessValidation = (req : ValidationRequest, res : Response, next : NextFu
     next();
 };
 
-app.post("/register", async (req: Request, res: Response) => {
+app.post("/register", async (req : Request, res : Response) => {
     try {
         const { username, password, email } = req.body;
-
-        if (!username || !password || !email) {
-            return res.status(400).json({ message: "Semua field harus diisi" });
-        }
-
         const hashedPass = await bcrypt.hash(password, 10);
-
         const result = await prisma.users.create({
-            data: { 
-                username, 
-                password: hashedPass, 
-                email, 
-                role: "user" 
-            }
+            data: { username, password: hashedPass, email}
         });
-
         res.json({ message: "REGISTER IS SUCCESS", data: result });
     } catch (error) {
-        console.error(error); // Log error ke terminal
-        res.status(500).json({ message: "REGISTER IS UNSUCCESS", error: error });
+        res.json({ message: "REGISTER IS UNSUCCESS", data: error
+         });
     }
 });
-
 
 app.post("/login", async (req : Request, res : Response) => {
     const { email, password } = req.body;
