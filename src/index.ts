@@ -12,7 +12,7 @@ app.use(express.json());
 
 interface UserData {
     id: string;
-    name: string;
+    username: string;
     role: string;
 }
 
@@ -68,10 +68,10 @@ const accessValidation = (req : ValidationRequest, res : Response, next : NextFu
 
 app.post("/register", async (req : Request, res : Response) => {
     try {
-        const { name, password, email } = req.body;
+        const { username, password, email } = req.body;
         const hashedPass = await bcrypt.hash(password, 10);
         const result = await prisma.users.create({
-            data: { name, password: hashedPass, email, role: "user" }
+            data: { username, password: hashedPass, email, role: "user" }
         });
         res.json({ message: "REGISTER IS SUCCESS", data: result });
     } catch (error) {
@@ -88,7 +88,7 @@ app.post("/login", async (req : Request, res : Response) => {
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (isPasswordValid) {
-        const payload = { id: user.id, name: user.name, role: user.role };
+        const payload = { id: user.id, username: user.username, role: user.role };
         const secret = process.env.JWT_SECRET;
         const token = jwt.sign(payload, secret, { expiresIn: "1h" });
 
@@ -105,8 +105,8 @@ app.post("/login", async (req : Request, res : Response) => {
 
 app.post("/users", accessValidation, async (req : Request, res : Response) => {
     try {
-        const { name, password, email } = req.body;
-        const result = await prisma.users.create({ data: { name, password, email, role: "user" } });
+        const { username, password, email } = req.body;
+        const result = await prisma.users.create({ data: { username, password, email, role: "user" } });
         res.json({ message: "CREATE USER SUCCESS", data: result });
     } catch (error) {
         res.json({ message: "CREATE USER UNSUCCESS", error });
@@ -125,11 +125,11 @@ app.get("/users", accessValidation, async (req : Request, res : Response) => {
 app.patch("/users/update/:id", accessValidation, async (req : Request, res : Response) => {
     try {
         const { id } = req.params;
-        const { name, password, email } = req.body;
+        const { username, password, email } = req.body;
         const hashedPass = await bcrypt.hash(password, 10);
         const result = await prisma.users.update({
             where: { id: parseInt(id) },
-            data: { name, password: hashedPass, email }
+            data: { username, password: hashedPass, email }
         });
         res.json({ message: "UPDATE USER SUCCESS", data: result });
     } catch (error) {
