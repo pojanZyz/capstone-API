@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
-    "start": "node src/index.ts"
+    "start": "node src/index.ts",
+    "postinstall": "prisma generate && prisma migrate deploy"
   },
   "author": "",
   "license": "ISC",
