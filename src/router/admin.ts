@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from "express";
 const {adminValidation} = require("../middleware/adminValidation");
 const {accessValidation} = require("../middleware/accessValidation");
 const {createNewUser,getAllUsers,updateUser,deleteUser} = require("../controller/admin");

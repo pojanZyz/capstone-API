@@ -1,12 +1,10 @@
 import express, { Request } from "express";
 
 const { PrismaClient } = require("@prisma/client");
-
-const accessValidation = require("../middleware/accessValidation.ts")
 const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");                                
-
+const accessValidation = require("../middleware/accessValidation")
 dotenv.config();
 const prisma = new PrismaClient();
 
