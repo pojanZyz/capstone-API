@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-const {adminValidation} = require("../middleware/adminValidation.ts");
-const {accessValidation} = require("../middleware/accessValidation.ts");
-const {createNewUser,getAllUsers,updateUser,deleteUser} = require("../controller/admin.ts");
+const {adminValidation} = require("../middleware/adminValidation");
+const {accessValidation} = require("../middleware/accessValidation");
+const {createNewUser,getAllUsers,updateUser,deleteUser} = require("../controller/admin");
 import express from "express";
 
 const jwt = require("jsonwebtoken");

@@ -12,5 +12,9 @@
     "compilerOptions": {
       "module": "CommonJS"
     }
-  }
+  },
+  "include": ["src"],
+  "builds": [
+    { "src": "src/index.ts", "use": "@vercel/node" }
+  ]
 }
