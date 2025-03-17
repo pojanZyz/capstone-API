@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 const { PrismaClient } = require("@prisma/client");
-const usersRouter = require("./router/users");
-const adminRouter = require("./router/admin");
+const usersRouter = require("./router/users.ts");
+const adminRouter = require("./router/admin.ts");
 
 const express = require("express");
 const dotenv = require("dotenv");
