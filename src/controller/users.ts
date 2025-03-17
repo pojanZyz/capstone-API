@@ -22,6 +22,12 @@ interface ValidationRequest extends express.Request {
 }
 
 const register = async (req : express.Request, res : express.Response) => {
+    const token = req.header("Authorization")?.split(" ")[1];
+
+    if (token) {
+        accessValidation.blacklistToken.add(token);
+    }
+
     try {
         const { username, password, email } = req.body;
         const hashedPass = await bcrypt.hash(password, 10);
@@ -36,6 +42,12 @@ const register = async (req : express.Request, res : express.Response) => {
 };
 
 const login = async (req : express.Request, res : express.Response) => {
+    const token = req.header("Authorization")?.split(" ")[1];
+
+    if (token) {
+        accessValidation.blacklistToken.add(token);
+    }
+
     const { email, password } = req.body;
     const user = await prisma.users.findUnique({ where: { email } });
 
@@ -70,6 +82,12 @@ const logout = (req: ValidationRequest, res: express.Response) => {
 };
 
 const getUserLogin =  async (req: ValidationRequest, res: express.Response) => {
+    const token = req.header("Authorization")?.split(" ")[1];
+
+    if (token) {
+        accessValidation.blacklistToken.add(token);
+    }
+    
     try {
         const user = await prisma.users.findUnique({
             where: { id: parseInt(req.userData.id) },
