@@ -1,4 +1,3 @@
-import { NextFunction, Request, Response } from "express";
 const {register,login,logout,getUserLogin} = require("../controller/users");
 const {accessValidation} = require("../middleware/accessValidation")
 import express from "express";
