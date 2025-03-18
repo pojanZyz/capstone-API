@@ -84,4 +84,5 @@ const getUserLogin =  async (req: ValidationRequest, res: express.Response) => {
     }
 };
 
+
 module.exports = {register, login, logout, getUserLogin};
