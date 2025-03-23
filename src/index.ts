@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from "express";
 const express = require("express");
 const usersRouter = require("./router/users");
 const adminRouter = require("./router/admin");
@@ -8,7 +9,11 @@ const app = express();
 const cors = require("cors");
 
 dotenv.config();
-app.use(cors());
+app.use(cors({
+    origin: "*", // Ganti dengan domain frontend-mu
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type, Authorization",
+}));
 
 app.use(express.json());
 
