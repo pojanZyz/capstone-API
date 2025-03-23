@@ -1,16 +1,18 @@
-import { Request, Response, NextFunction } from "express";
-const express = require("express");
+import type { NextFunction, Request, Response } from "express";
+const { prisma } = require("./configuration/prisma");
 const usersRouter = require("./router/users");
 const adminRouter = require("./router/admin");
 
-
-const dotenv = require("dotenv");                            
-const app = express();
+const express = require("express");
+const dotenv = require("dotenv");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");                                
 const cors = require("cors");
 
 dotenv.config();
-app.use(cors());
+const app = express();
 
+app.use(cors()); // Mengizinkan semua domain mengakses API
 app.use(express.json());
 
 app.use('/users', usersRouter);
