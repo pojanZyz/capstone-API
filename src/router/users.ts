@@ -1,21 +1,28 @@
 import { NextFunction, Request, Response } from "express";
+const cors = require("cors");
 const {register,login,logout,getUserLogin} = require("../controller/users");
 const {accessValidation} = require("../middleware/accessValidation")
 import express from "express";
 const jwt = require("jsonwebtoken");
 
+const router = express.Router();
 const app = express.Router();
+app.use(cors({
+    origin: "*", // Mengizinkan semua origin
+    methods: ["GET", "POST", "PUT", "DELETE"], // Metode yang diizinkan
+    allowedHeaders: ["Content-Type"] // Header yang diizinkan
+}));
 
 //  REGISTER
-app.post('/register', register);
+router.post('/register', register);
 
 // LOGIN
-app.post('/login', login);
+router.post('/login', login);
 
 // LOGOUT
-app.post('/logout', accessValidation, logout);
+router.post('/logout', accessValidation, logout);
 
 // GET DATA USER LOGIN
-app.get('/me', accessValidation, getUserLogin);
+router.get('/me', accessValidation, getUserLogin);
 
-module.exports = app;
+module.exports = router;
