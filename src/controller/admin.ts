@@ -1,12 +1,11 @@
 // import type { NextFunction, Request, Response } from "express";
 import express from "express";
 const dotenv = require("dotenv");
-const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcryptjs");
                        
 
 dotenv.config();
-const prisma = new PrismaClient();
+const prisma = require("../configuration/prisma");
 
 const createNewUser = async (req : express.Request, res : express.Response) => {
     try {

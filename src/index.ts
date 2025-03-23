@@ -1,5 +1,4 @@
 import type { NextFunction, Request, Response } from "express";
-const { PrismaClient } = require("@prisma/client");
 const usersRouter = require("./router/users");
 const adminRouter = require("./router/admin");
 
@@ -10,7 +9,7 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 
 dotenv.config();
-const prisma = new PrismaClient();
+const prisma = require("../configuration/prisma");
 const app = express();
 
 app.use(cors()); // Mengizinkan semua domain mengakses API
