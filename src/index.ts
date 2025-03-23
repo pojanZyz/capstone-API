@@ -4,6 +4,7 @@ const cors = require("cors");
 app.use(cors({
     origin: "*", // Mengizinkan semua origin
     methods: ["GET", "POST", "PUT", "DELETE"], // Metode yang diizinkan
+    allowedHeaders: ["Content-Type"] // Header yang diizinkan
 }));
 const usersRouter = require("./router/users");
 const adminRouter = require("./router/admin");
