@@ -1,34 +1,16 @@
-import { Request, Response, NextFunction } from "express";
 const express = require("express");
-const app = express();
-const cors = require("cors");
 const usersRouter = require("./router/users");
 const adminRouter = require("./router/admin");
 
 
 const dotenv = require("dotenv");                            
+const app = express();
+const cors = require("cors");
 
 dotenv.config();
-app.use(cors({
-    origin: ["http://127.0.0.1:5500"], // Ganti dengan domain frontend-mu
-    methods: "GET,POST,PUT,DELETE,OPTIONS",
-    allowedHeaders: "Content-Type, Authorization",
-    credentials: true, // Jika frontend butuh mengirim cookie/token
-}));
-
-
-app.options("/", cors());
+app.use(cors());
 
 app.use(express.json());
-
-app.use((req : Request, res : Response, next : NextFunction) => {
-    if (req.method === "OPTIONS") {
-        res.status(200).send("OK"); // Pastikan statusnya 200
-    } else {
-        next();
-    }
-});
-
 
 app.use('/users', usersRouter);
 app.use('/', adminRouter);
