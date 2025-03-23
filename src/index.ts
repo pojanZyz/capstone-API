@@ -10,24 +10,14 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 app.use(cors({
-    origin: "*", // Ganti dengan domain frontend-mu
+    origin: "http://127.0.0.1:5500", // Ganti dengan domain frontend-mu
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     allowedHeaders: "Content-Type, Authorization",
+    credentials: true, // Jika frontend butuh mengirim cookie/token
 }));
 
 
-app.options('*', cors()); // Menangani preflight request
-
-app.use((req : Request, res : Response, next : NextFunction) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    
-    if (req.method === "OPTIONS") {
-        return res.status(200).end();
-    }
-    next();
-});
+app.options("/", cors());
 
 app.use(express.json());
 
