@@ -1,15 +1,15 @@
-import type { NextFunction, Request, Response } from "express";
+const express = require("express");
+const app = express();
+const cors = require("cors");
 const usersRouter = require("./router/users");
 const adminRouter = require("./router/admin");
 
-const express = require("express");
+
 const dotenv = require("dotenv");                            
-const cors = require("cors");
 
 dotenv.config();
-const app = express();
-
 app.use(cors()); // Mengizinkan semua domain mengakses API
+
 app.use(express.json());
 
 app.use('/users', usersRouter);
