@@ -1,13 +1,13 @@
 import express, { Request } from "express";
 
-const {prisma} = require("../configuration/prisma");
+const { PrismaClient } = require("@prisma/client");
 const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");                                
 const accessValidation = require("../middleware/accessValidation")
 dotenv.config();
 
-
+const prisma = new PrismaClient();
 interface UserData {
     id: string;
     username: string;
@@ -23,6 +23,15 @@ interface ValidationRequest extends express.Request {
 const register = async (req : express.Request, res : express.Response) => {
     try {
         const { username, password, email } = req.body;
+        if (!username || !password || !email) {
+            return res.status(400).json({ message: "All fields are required!" });
+        }
+
+        const existingUser = await prisma.users.findUnique({ where: { email } });
+        if (existingUser) {
+            return res.status(400).json({ message: "Email already registered!" });
+        }
+        
         const hashedPass = await bcrypt.hash(password, 10);
         const result = await prisma.users.create({
             data: { username, password: hashedPass, email, role: "user"}
