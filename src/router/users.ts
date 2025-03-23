@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 
 const app = express.Router();
 
-
 //  REGISTER
 app.post('/register', register);
 
