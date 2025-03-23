@@ -9,7 +9,13 @@ const adminRouter = require("./router/admin");
 const dotenv = require("dotenv");                            
 
 dotenv.config();
-app.use(cors());
+app.use(cors({
+    origin: "http://127.0.0.1:5500", // Ganti dengan domain frontend-mu
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type, Authorization",
+    credentials: true
+}));
+
 
 app.options('*', cors()); // Menangani preflight request
 
