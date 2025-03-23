@@ -3,19 +3,19 @@ const {accessValidation} = require("../middleware/accessValidation")
 import express from "express";
 const jwt = require("jsonwebtoken");
 
-const router = express.Router();
+const app = express.Router();
 
 
 //  REGISTER
-router.post('/register', register);
+app.post('/register', register);
 
 // LOGIN
-router.post('/login', login);
+app.post('/login', login);
 
 // LOGOUT
-router.post('/logout', accessValidation, logout);
+app.post('/logout', accessValidation, logout);
 
 // GET DATA USER LOGIN
-router.get('/me', accessValidation, getUserLogin);
+app.get('/me', accessValidation, getUserLogin);
 
-module.exports = router;
+module.exports = app;

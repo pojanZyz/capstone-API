@@ -9,11 +9,7 @@ const app = express();
 const cors = require("cors");
 
 dotenv.config();
-app.use(cors({
-    origin: "*", // Ganti dengan domain frontend-mu
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type, Authorization",
-}));
+app.use(cors());
 
 app.use(express.json());
 
