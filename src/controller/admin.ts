@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
                        
 
 dotenv.config();
-const prisma = require("../configuration/prisma");
+const prisma = require("../configuration/prisma").default;
 
 const createNewUser = async (req : express.Request, res : express.Response) => {
     try {

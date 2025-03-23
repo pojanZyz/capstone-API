@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 
 dotenv.config();
-const prisma = require("../configuration/prisma");
+const prisma = require("../configuration/prisma").default;
 const app = express();
 
 app.use(cors()); // Mengizinkan semua domain mengakses API

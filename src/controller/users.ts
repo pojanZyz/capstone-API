@@ -1,6 +1,6 @@
 import express, { Request } from "express";
 
-const prisma = require("../configuration/prisma");
+const prisma = require("../configuration/prisma").default;
 const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");                                
