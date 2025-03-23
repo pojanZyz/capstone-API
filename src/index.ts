@@ -8,7 +8,11 @@ const adminRouter = require("./router/admin");
 const dotenv = require("dotenv");                            
 
 dotenv.config();
-app.use(cors());
+app.use(cors({
+    origin: "*", // Mengizinkan semua origin
+    methods: ["GET", "POST", "PUT", "DELETE"], // Metode yang diizinkan
+    allowedHeaders: ["Content-Type"] // Header yang diizinkan
+}));
 app.use(express.json());
 
 app.use('/users', usersRouter);
