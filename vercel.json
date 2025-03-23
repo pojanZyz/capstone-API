@@ -4,6 +4,20 @@
     { "src": "src/index.ts", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/src/index.ts","methods":["POST", "GET", "DELETE", "PATCH"] }
+    {
+      "src": "/(.*)",
+      "dest": "/src/index.ts",
+      "methods": ["POST", "GET", "DELETE", "PATCH"]
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
+      ]
+    }
   ]
 }
