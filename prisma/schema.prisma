@@ -3,16 +3,16 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model users {
-  id        Int      @id @default(autoincrement())
-  username      String   @db.VarChar(50)
-  password  String  @db.VarChar(255)
-  email     String  @unique(map: "email") @db.VarChar(255)
+  id        Int      @id @default(autoincrement()) @map("id") // Sesuai dengan SERIAL PRIMARY KEY
+  username  String   @db.VarChar(50)
+  password  String   @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
   role      String   @db.VarChar(5) @default("user")
-  createdAt DateTime @default(now()) @db.Timestamp(0)
-  updatedAt DateTime @default(now()) @db.Timestamp(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @map("updated_at") // Pastikan nama sesuai SQL
 }
