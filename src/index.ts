@@ -3,13 +3,10 @@ const usersRouter = require("./router/users");
 const adminRouter = require("./router/admin");
 
 const express = require("express");
-const dotenv = require("dotenv");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");                                
+const dotenv = require("dotenv");                            
 const cors = require("cors");
 
 dotenv.config();
-const prisma = require("../configuration/prisma").default;
 const app = express();
 
 app.use(cors()); // Mengizinkan semua domain mengakses API
