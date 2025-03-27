@@ -58,32 +58,29 @@ const deleteUser = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params;
 
-        // Hapus user berdasarkan ID
-        const result = await prisma.$executeRawUnsafe(`DELETE FROM users WHERE id = ${id};`);
+        // Hapus user berdasarkan ID (Gunakan parameterized query untuk keamanan)
+        await prisma.$executeRawUnsafe(`DELETE FROM users WHERE id = $1;`, id);
 
-        // Reset urutan ID (Hanya untuk PostgreSQL)
+        // Reset sequence ID agar mulai dari ID terkecil yang ada
         await prisma.$executeRawUnsafe(`
-            WITH reordered AS (
-                SELECT id, ROW_NUMBER() OVER () AS new_id
-                FROM users
-            )
-            UPDATE users
-            SET id = reordered.new_id
-            FROM reordered
-            WHERE users.id = reordered.id;
+            SELECT setval(
+                pg_get_serial_sequence('users', 'id'),
+                COALESCE((SELECT MAX(id) FROM users), 1),
+                false
+            );
         `);
 
-        // Reset sequence agar mengikuti ID terakhir
-        await prisma.$executeRawUnsafe(`ALTER SEQUENCE users_id_seq RESTART WITH 1;`);
+        res.json({ message: "DELETE USER SUCCESS" });
 
-        res.json({ message: "DELETE USER SUCCESS", data: result });
-        await prisma.$executeRawUnsafe("VACUUM FULL ANALYZE users;");
+        // Bersihkan database (Gunakan tanpa FULL agar bisa berjalan di Prisma)
+        await prisma.$queryRawUnsafe("VACUUM ANALYZE users;");
     } catch (error) {
         console.error("Error deleting user:", error);
         res.status(500).json({ message: "DELETE USER UNSUCCESS", error });
-    }finally{
+    } finally {
         await prisma.$disconnect();
     }
 };
+
 
 module.exports = {createNewUser,getAllUsers,updateUser,deleteUser};
