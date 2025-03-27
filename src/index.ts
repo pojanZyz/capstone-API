@@ -1,4 +1,3 @@
-const { prisma } = require("../config/prisma");
 const usersRouter = require("./router/users");
 const adminRouter = require("./router/admin");
 

@@ -1,7 +1,7 @@
 // import type { NextFunction, Request, Response } from "express";
 import express from "express";
 const dotenv = require("dotenv");
-const { prisma } = require("../config/prisma");
+const prisma = require("../config/prisma");
 const bcrypt = require("bcryptjs");
                        
 
