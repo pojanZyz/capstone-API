@@ -63,7 +63,7 @@ const login = async (req: express.Request, res: express.Response) => {
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) return res.status(401).json({ message: "WRONG PASSWORD" });
 
-        const payload = { id: user.id, username: user.username, role: user.role };
+        const payload = { id: user.id, username: user.username,email: user.email, role: user.role };
         const secret = process.env.JWT_SECRET;
         const token = jwt.sign(payload, secret, { expiresIn: "1h" });
 

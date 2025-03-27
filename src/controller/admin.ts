@@ -59,7 +59,7 @@ const deleteUser = async (req: express.Request, res: express.Response) => {
         const { id } = req.params;
 
         // Hapus user berdasarkan ID
-        const result = await prisma.users.delete({ where: { id: parseInt(id) } });
+        const result = await prisma.$executeRawUnsafe(`DELETE FROM users WHERE id = ${id};`);
 
         // Reset urutan ID (Hanya untuk PostgreSQL)
         await prisma.$executeRawUnsafe(`
@@ -77,6 +77,7 @@ const deleteUser = async (req: express.Request, res: express.Response) => {
         await prisma.$executeRawUnsafe(`ALTER SEQUENCE users_id_seq RESTART WITH 1;`);
 
         res.json({ message: "DELETE USER SUCCESS", data: result });
+        await prisma.$executeRawUnsafe("VACUUM FULL ANALYZE users;");
     } catch (error) {
         console.error("Error deleting user:", error);
         res.status(500).json({ message: "DELETE USER UNSUCCESS", error });
