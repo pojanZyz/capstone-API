@@ -43,11 +43,10 @@ const register = async (req : express.Request, res : express.Response) => {
         });
 
         res.json({ message: "REGISTER IS SUCCESS", data: result });
+        await prisma.$disconnect();
     } catch (error) {
         console.error("Register error:", error);
         res.status(500).json({ message: "REGISTER IS UNSUCCESS", error: error });
-    }finally{
-        await prisma.$disconnect();
     }
 };
 
@@ -73,11 +72,10 @@ const login = async (req: express.Request, res: express.Response) => {
             data: payload,
             token
         });
+        await prisma.$disconnect();
     } catch (error) {
         console.error("Login error:", error);
         res.status(500).json({ message: "INTERNAL SERVER ERROR" });
-    } finally {
-        await prisma.$disconnect(); // Tutup koneksi Prisma setelah query selesai
     }
 };
 
@@ -90,11 +88,10 @@ const logout = async (req: ValidationRequest, res: express.Response) => {
     }
 
     res.json({ message: "Logout berhasil" });
+    await prisma.$disconnect();
     }catch (error) {
         console.error("logout error:", error);
         res.status(500).json({ message: "INTERNAL SERVER ERROR" });
-    } finally {
-        await prisma.$disconnect(); // Tutup koneksi Prisma setelah query selesai
     }
 };
 
@@ -108,10 +105,9 @@ const getUserLogin =  async (req: ValidationRequest, res: express.Response) => {
         if (!user) return res.status(404).json({ message: "User not found" });
 
         res.json({ message: "GET USER SUCCESS", data: user });
+        await prisma.$disconnect();
     } catch (error) {
         res.status(500).json({ message: "ERROR GETTING USER", error });
-    }finally{
-        await prisma.$disconnect();
     }
 };
 

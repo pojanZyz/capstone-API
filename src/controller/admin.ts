@@ -13,10 +13,9 @@ const createNewUser = async (req : express.Request, res : express.Response) => {
         const hashedPass = await bcrypt.hash(password, 10);
         const result = await prisma.users.create({ data: { username, password : hashedPass, email, role: "user" } });
         res.json({ message: "CREATE USER SUCCESS", data: result });
+        await prisma.$disconnect();
     } catch (error) {
         res.json({ message: "CREATE USER UNSUCCESS", error });
-    }finally{
-        await prisma.$disconnect();
     }
 };
 
@@ -24,10 +23,9 @@ const getAllUsers =  async (req : express.Request, res : express.Response) => {
     try {
         const result = await prisma.users.findMany();
         res.json({ message: "GET ALL USERS SUCCESS", data: result });
+        await prisma.$disconnect();
     } catch (error) {
         res.json({ message: "GET ALL USER UNSUCCESS", error });
-    }finally{
-        await prisma.$disconnect();
     }
 };
 
@@ -47,10 +45,9 @@ const updateUser =  async (req : express.Request, res : express.Response) => {
             data: updateData
         });
         res.json({ message: "UPDATE USER SUCCESS", data: result });
+        await prisma.$disconnect();
     } catch (error) {
         res.json({ message: "UPDATE USER UNSUCCESS", error });
-    }finally{
-        await prisma.$disconnect();
     }
 };
 
@@ -80,8 +77,6 @@ const deleteUser = async (req: express.Request, res: express.Response) => {
     } catch (error) {
         console.error("Error deleting user:", error);
         res.status(500).json({ message: "DELETE USER UNSUCCESS", error });
-    }finally{
-        await prisma.$disconnect();
     }
 };
 
