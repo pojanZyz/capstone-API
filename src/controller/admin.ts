@@ -56,7 +56,19 @@ const deleteUser = async (req: express.Request, res: express.Response) => {
         const result = await prisma.users.delete({ where: { id: parseInt(id) } });
 
         // Reset urutan ID (Hanya untuk PostgreSQL)
-        await prisma.$executeRawUnsafe(`SELECT setval(pg_get_serial_sequence('users', 'id'), COALESCE((SELECT MAX(id) FROM users), 1), false);`);
+        await prisma.$executeRawUnsafe(`
+            WITH reordered AS (
+                SELECT id, ROW_NUMBER() OVER () AS new_id
+                FROM users
+            )
+            UPDATE users
+            SET id = reordered.new_id
+            FROM reordered
+            WHERE users.id = reordered.id;
+        `);
+
+        // Reset sequence agar mengikuti ID terakhir
+        await prisma.$executeRawUnsafe(`ALTER SEQUENCE users_id_seq RESTART WITH 1;`);
 
         res.json({ message: "DELETE USER SUCCESS", data: result });
     } catch (error) {
