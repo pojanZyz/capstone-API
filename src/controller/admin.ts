@@ -49,16 +49,20 @@ const updateUser =  async (req : express.Request, res : express.Response) => {
     }
 };
 
-const deleteUser = async (req : express.Request, res : express.Response) => {
+const deleteUser = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params;
+
+        // Hapus user berdasarkan ID
         const result = await prisma.users.delete({ where: { id: parseInt(id) } });
-        await prisma.$executeRaw`SET @num := 0;`;
-        await prisma.$executeRaw`UPDATE users SET id = (@num := @num + 1);`;
-        await prisma.$executeRaw`ALTER TABLE users AUTO_INCREMENT = 1;`;
+
+        // Reset urutan ID (Hanya untuk PostgreSQL)
+        await prisma.$executeRawUnsafe(`SELECT setval(pg_get_serial_sequence('users', 'id'), COALESCE((SELECT MAX(id) FROM users), 1), false);`);
+
         res.json({ message: "DELETE USER SUCCESS", data: result });
     } catch (error) {
-        res.json({ message: "DELETE USER UNSUCCESS", error });
+        console.error("Error deleting user:", error);
+        res.status(500).json({ message: "DELETE USER UNSUCCESS", error });
     }
 };
 
