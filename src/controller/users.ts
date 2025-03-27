@@ -46,6 +46,8 @@ const register = async (req : express.Request, res : express.Response) => {
     } catch (error) {
         console.error("Register error:", error);
         res.status(500).json({ message: "REGISTER IS UNSUCCESS", error: error });
+    }finally{
+        await prisma.$disconnect();
     }
 };
 
@@ -79,7 +81,8 @@ const login = async (req: express.Request, res: express.Response) => {
     }
 };
 
-const logout = (req: ValidationRequest, res: express.Response) => {
+const logout = async (req: ValidationRequest, res: express.Response) => {
+    try{
     const token = req.header("Authorization")?.split(" ")[1];
 
     if (token) {
@@ -87,6 +90,12 @@ const logout = (req: ValidationRequest, res: express.Response) => {
     }
 
     res.json({ message: "Logout berhasil" });
+    }catch (error) {
+        console.error("logout error:", error);
+        res.status(500).json({ message: "INTERNAL SERVER ERROR" });
+    } finally {
+        await prisma.$disconnect(); // Tutup koneksi Prisma setelah query selesai
+    }
 };
 
 const getUserLogin =  async (req: ValidationRequest, res: express.Response) => {
@@ -101,6 +110,8 @@ const getUserLogin =  async (req: ValidationRequest, res: express.Response) => {
         res.json({ message: "GET USER SUCCESS", data: user });
     } catch (error) {
         res.status(500).json({ message: "ERROR GETTING USER", error });
+    }finally{
+        await prisma.$disconnect();
     }
 };
 
