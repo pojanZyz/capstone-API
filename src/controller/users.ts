@@ -26,21 +26,29 @@ const register = async (req : express.Request, res : express.Response) => {
             return res.status(400).json({ message: "All fields are required!" });
         }
 
+        // Cek apakah email sudah ada
         const existingUser = await prisma.users.findUnique({ where: { email } });
         if (existingUser) {
             return res.status(400).json({ message: "Email already registered!" });
         }
-        
+
+        console.log("Password sebelum hash:", password);
+
+        // Hash password
         const hashedPass = await bcrypt.hash(password, 10);
+
+        // Simpan user
         const result = await prisma.users.create({
-            data: { username, password: hashedPass, email, role: "user"}
+            data: { username, password: hashedPass, email, role: "user" }
         });
+
         res.json({ message: "REGISTER IS SUCCESS", data: result });
     } catch (error) {
-        res.json({ message: "REGISTER IS UNSUCCESS", data: error
-         });
+        console.error("Register error:", error);
+        res.status(500).json({ message: "REGISTER IS UNSUCCESS", error: error });
     }
 };
+
 
 const login = async (req: express.Request, res: express.Response) => {
     try {
