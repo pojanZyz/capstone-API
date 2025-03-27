@@ -1,13 +1,12 @@
 import express, { Request } from "express";
 
-const { PrismaClient } = require("@prisma/client");
+const { prisma } = require("../config/prisma");
 const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");                                
 const accessValidation = require("../middleware/accessValidation")
 dotenv.config();
 
-const prisma = new PrismaClient();
 interface UserData {
     id: string;
     username: string;

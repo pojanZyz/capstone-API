@@ -1,5 +1,4 @@
-import type { NextFunction, Request, Response } from "express";
-const { PrismaClient } = require("@prisma/client");
+const { prisma } = require("../config/prisma");
 const usersRouter = require("./router/users");
 const adminRouter = require("./router/admin");
 
