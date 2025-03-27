@@ -43,15 +43,17 @@ const register = async (req : express.Request, res : express.Response) => {
     }
 };
 
-const login = async (req : express.Request, res : express.Response) => {
-    const { email, password } = req.body;
-    const user = await prisma.users.findUnique({ where: { email } });
+const login = async (req: express.Request, res: express.Response) => {
+    try {
+        const { email, password } = req.body;
+        const user = await prisma.users.findUnique({ where: { email } });
 
-    if (!user) return res.status(404).json({ message: "USER NOT FOUND" });
-    if (!user.password) return res.status(404).json({ message: "PASSWORD NOT SET" });
+        if (!user) return res.status(404).json({ message: "USER NOT FOUND" });
+        if (!user.password) return res.status(404).json({ message: "PASSWORD NOT SET" });
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (isPasswordValid) {
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) return res.status(401).json({ message: "WRONG PASSWORD" });
+
         const payload = { id: user.id, username: user.username, role: user.role };
         const secret = process.env.JWT_SECRET;
         const token = jwt.sign(payload, secret, { expiresIn: "1h" });
@@ -62,8 +64,11 @@ const login = async (req : express.Request, res : express.Response) => {
             data: payload,
             token
         });
-    } else {
-        res.status(401).json({ message: "WRONG PASSWORD" });
+    } catch (error) {
+        console.error("Login error:", error);
+        res.status(500).json({ message: "INTERNAL SERVER ERROR" });
+    } finally {
+        await prisma.$disconnect(); // Tutup koneksi Prisma setelah query selesai
     }
 };
 
