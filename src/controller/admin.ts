@@ -82,5 +82,4 @@ const deleteUser = async (req: express.Request, res: express.Response) => {
     }
 };
 
-
 module.exports = {createNewUser,getAllUsers,updateUser,deleteUser};
