@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response } from "express";
 const {adminValidation} = require("../middleware/adminValidation");
 const {accessValidation} = require("../middleware/accessValidation");
-const {createNewUser,getAllUsers,updateUser,deleteUser} = require("../controller/admin");
+const {createNewUser,getAllUsers,updateUser,deleteUser,getUserById} = require("../controller/admin");
 import express from "express";
 
 const jwt = require("jsonwebtoken");
@@ -13,6 +12,9 @@ app.post('/create', accessValidation, adminValidation, createNewUser);
 
 // GET ALL USER ACC
 app.get('/get', accessValidation, adminValidation, getAllUsers);
+
+// GET USER BY ID
+app.get('/get/:id', accessValidation, adminValidation, getUserById )
 
 // UPDATE USER ACC
 app.patch('/update/:id', accessValidation, adminValidation, updateUser);

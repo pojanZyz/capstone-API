@@ -31,6 +31,21 @@ const getAllUsers =  async (req : express.Request, res : express.Response) => {
     }
 };
 
+const getUserById = async (req: express.Request, res : express.Response)=>{
+    try {
+        const {id} = req.params;
+
+        const result = await prisma.$executeRawUnsafe("SELECT * FROM USERS WHERE id=?", id);
+        res.json({
+            data: result
+        })
+    } catch (error) {
+        
+    }finally{
+        await prisma.$disconnect();
+    }
+}
+
 const updateUser =  async (req : express.Request, res : express.Response) => {
     const { id } = req.params;
     const { username, password, email } = req.body;
@@ -82,4 +97,4 @@ const deleteUser = async (req: express.Request, res: express.Response) => {
     }
 };
 
-module.exports = {createNewUser,getAllUsers,updateUser,deleteUser};
+module.exports = {createNewUser,getAllUsers,updateUser,deleteUser,getUserById};
