@@ -33,14 +33,13 @@ const getAllUsers =  async (req : express.Request, res : express.Response) => {
 
 const getUserById = async (req: express.Request, res : express.Response)=>{
     try {
-        const {id} = req.params;
-
-        const result = await prisma.$executeRawUnsafe("SELECT * FROM USERS WHERE id=?", id);
-        res.json({
-            data: result
-        })
-    } catch (error) {
-        
+        const { id } = req.params;
+        const data = await prisma.findByPk(id); // Cek database
+        if (!data) return res.status(404).json({ error: 'Data tidak ditemukan' });
+        res.json(data);
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Terjadi kesalahan server' });
     }finally{
         await prisma.$disconnect();
     }
