@@ -59,7 +59,7 @@ const deleteUser = async (req: express.Request, res: express.Response) => {
         const { id } = req.params;
 
         // Hapus user berdasarkan ID (Gunakan parameterized query untuk keamanan)
-        await prisma.$executeRawUnsafe(`DELETE FROM users WHERE id = $1;`, id);
+        await prisma.$executeRawUnsafe(`DELETE FROM users WHERE id = $1;`, Number(id));
 
         // Reset sequence ID agar mulai dari ID terkecil yang ada
         await prisma.$executeRawUnsafe(`
