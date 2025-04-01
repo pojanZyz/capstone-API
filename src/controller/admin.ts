@@ -34,7 +34,7 @@ const getAllUsers =  async (req : express.Request, res : express.Response) => {
 const getUserById = async (req: express.Request, res : express.Response)=>{
     try {
         const { id } = req.params;
-        const data = await prisma.findUnique({where: {id: Number(id)}}) // Cek database
+        const data = await prisma.users.findUnique({where: {id: Number(id)}}) // Cek database
         if (!data) return res.status(404).json({ error: 'Data tidak ditemukan' });
         res.json(data);
       } catch (err) {
