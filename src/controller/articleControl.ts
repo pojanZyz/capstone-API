@@ -54,5 +54,6 @@ const getAllArticles = async (req: express.Request, res: express.Response) => {
 }
 
 module.exports = {
-    createArticle
+    createArticle,
+    getAllArticles,
   }
