@@ -74,7 +74,7 @@ const getAllArticles = async (req: express.Request, res: express.Response) => {
         const result = await prisma.articles.findMany();
 
         // Base URL publik dari bucket Supabase
-        const baseImageUrl = "https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/uploads/";
+        const baseImageUrl = "https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/uploads/articles";
 
         // Konversi BigInt ke string dan tambahkan base URL ke path gambar
         const responseData = result.map((article: { id: bigint; image: string; [key: string]: any }) => ({

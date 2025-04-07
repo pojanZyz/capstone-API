@@ -6,69 +6,119 @@
     <title>Capstone API Test</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            color: #4CAF50;
         }
         form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
         input, textarea, button {
             display: block;
+            width: 100%;
             margin: 10px 0;
             padding: 10px;
-            width: 100%;
-            max-width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         table, th, td {
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
         }
         th, td {
-            padding: 10px;
+            padding: 12px;
             text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
         }
         img {
             max-width: 100px;
             height: auto;
+            border-radius: 4px;
+        }
+        .no-articles {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
         }
     </style>
 </head>
 <body>
-    <h1>Capstone API Test</h1>
+    <header>
+        <h1>Capstone API Test</h1>
+    </header>
+    <main>
+        <!-- Form untuk POST /articles -->
+        <h2>Create Article</h2>
+        <form id="create-article-form">
+            <input type="text" id="title" placeholder="Title" required />
+            <input type="text" id="category" placeholder="Category" required />
+            <textarea id="description" placeholder="Description" required></textarea>
+            <input type="text" id="location" placeholder="Location" required />
+            <input type="file" id="image" accept="image/*" />
+            <button type="submit">Create Article</button>
+        </form>
 
-    <!-- Form untuk POST /articles -->
-    <h2>Create Article</h2>
-    <form id="create-article-form">
-        <input type="text" id="title" placeholder="Title" required />
-        <input type="text" id="category" placeholder="Category" required />
-        <textarea id="description" placeholder="Description" required></textarea>
-        <input type="text" id="location" placeholder="Location" required />
-        <input type="file" id="image" accept="image/*" />
-        <button type="submit">Create Article</button>
-    </form>
-
-    <!-- Tabel untuk menampilkan artikel -->
-    <h2>All Articles</h2>
-    <table id="articles-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Category</th>
-                <th>Description</th>
-                <th>Location</th>
-                <th>Image</th>
-                <th>Created At</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Data artikel akan ditambahkan di sini -->
-        </tbody>
-    </table>
+        <!-- Tabel untuk menampilkan artikel -->
+        <h2>All Articles</h2>
+        <table id="articles-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Location</th>
+                    <th>Image</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data artikel akan ditambahkan di sini -->
+            </tbody>
+        </table>
+        <div class="no-articles" id="no-articles" style="display: none;">No articles found.</div>
+    </main>
 
     <script>
         const apiBaseUrl = "https://capstone-api-nu.vercel.app";
@@ -81,10 +131,12 @@
                 });
                 const result = await response.json();
         
-                if (result.data) {
-                    const tableBody = document.querySelector("#articles-table tbody");
-                    tableBody.innerHTML = ""; // Kosongkan tabel sebelum menambahkan data baru
+                const tableBody = document.querySelector("#articles-table tbody");
+                const noArticlesMessage = document.getElementById("no-articles");
+                tableBody.innerHTML = ""; // Kosongkan tabel sebelum menambahkan data baru
         
+                if (result.data && result.data.length > 0) {
+                    noArticlesMessage.style.display = "none";
                     result.data.forEach((article) => {
                         const createdAt = article.createdAt
                             ? new Date(article.createdAt).toLocaleString()
@@ -103,7 +155,7 @@
                         tableBody.appendChild(row);
                     });
                 } else {
-                    alert("No articles found.");
+                    noArticlesMessage.style.display = "block";
                 }
             } catch (error) {
                 alert(`Error: ${error.message}`);
