@@ -19,11 +19,21 @@
             width: 100%;
             max-width: 400px;
         }
-        .response {
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 20px;
-            padding: 10px;
+        }
+        table, th, td {
             border: 1px solid #ccc;
-            background: #f9f9f9;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        img {
+            max-width: 100px;
+            height: auto;
         }
     </style>
 </head>
@@ -41,15 +51,63 @@
         <button type="submit">Create Article</button>
     </form>
 
-    <!-- Tombol untuk GET /articles -->
-    <h2>Get All Articles</h2>
-    <button id="get-articles">Fetch Articles</button>
-
-    <!-- Tempat untuk menampilkan respons -->
-    <div class="response" id="response"></div>
+    <!-- Tabel untuk menampilkan artikel -->
+    <h2>All Articles</h2>
+    <table id="articles-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Image</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data artikel akan ditambahkan di sini -->
+        </tbody>
+    </table>
 
     <script>
         const apiBaseUrl = "https://capstone-api-nu.vercel.app";
+
+        // Fungsi untuk memuat artikel dan menampilkan dalam tabel
+        async function loadArticles() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/articles`, {
+                    method: "GET"
+                });
+                const result = await response.json();
+
+                if (result.data) {
+                    const tableBody = document.querySelector("#articles-table tbody");
+                    tableBody.innerHTML = ""; // Kosongkan tabel sebelum menambahkan data baru
+
+                    result.data.forEach((article) => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${article.id}</td>
+                            <td>${article.title}</td>
+                            <td>${article.category}</td>
+                            <td>${article.description}</td>
+                            <td>${article.location}</td>
+                            <td><img src="${article.image}" alt="Article Image" /></td>
+                            <td>${new Date(article.createdAt).toLocaleString()}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    alert("No articles found.");
+                }
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        }
+
+        // Panggil fungsi loadArticles saat halaman dimuat
+        window.onload = loadArticles;
 
         // Handle POST /articles
         document.getElementById("create-article-form").addEventListener("submit", async (e) => {
@@ -71,22 +129,10 @@
                     body: formData,
                 });
                 const result = await response.json();
-                document.getElementById("response").innerText = JSON.stringify(result, null, 2);
+                alert(result.message); // Tampilkan pesan sukses atau error
+                loadArticles(); // Muat ulang artikel setelah berhasil membuat artikel baru
             } catch (error) {
-                document.getElementById("response").innerText = `Error: ${error.message}`;
-            }
-        });
-
-        // Handle GET /articles
-        document.getElementById("get-articles").addEventListener("click", async () => {
-            try {
-                const response = await fetch(`${apiBaseUrl}/articles`, {
-                    method: "GET"
-                });
-                const result = await response.json();
-                document.getElementById("response").innerText = JSON.stringify(result, null, 2);
-            } catch (error) {
-                document.getElementById("response").innerText = `Error: ${error.message}`;
+                alert(`Error: ${error.message}`);
             }
         });
     </script>

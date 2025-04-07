@@ -1,8 +1,6 @@
 import express from 'express';
-import { moveCursor } from 'readline';
 const prisma = require('../config/prisma');
 const dotenv = require('dotenv');
-const upload = require('../middleware/upload'); // Import middleware multer
 
 dotenv.config();
 
@@ -14,7 +12,7 @@ const createArticle = async (req: express.Request, res: express.Response) => {
       // Cek apakah ada file yang diunggah
       if (req.file) {
           console.log('File uploaded:', req.file.originalname);
-          imageUrl = `uploads/${Date.now()}-${req.file.originalname}`;
+          imageUrl = `https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/uploads/${Date.now()}-${req.file.originalname}`;
       }
 
       const result = await prisma.articles.create({
@@ -46,8 +44,10 @@ const getAllArticles = async (req: express.Request, res: express.Response) => {
     try {
         const result = await prisma.articles.findMany();
 
-        // Konversi BigInt ke string jika diperlukan
-        const responseData = result.map((article: { id: bigint; [key: string]: any }) => ({
+        // Base URL publik dari bucket Supabase
+
+        // Konversi BigInt ke string dan tambahkan base URL ke path gambar
+        const responseData = result.map((article: { id: bigint; image: string; [key: string]: any }) => ({
             ...article,
             id: article.id.toString(), // Konversi BigInt ke string
         }));
@@ -64,4 +64,4 @@ const getAllArticles = async (req: express.Request, res: express.Response) => {
 module.exports = {
     createArticle,
     getAllArticles,
-  }
+};
