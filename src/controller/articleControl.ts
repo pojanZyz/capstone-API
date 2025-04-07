@@ -7,7 +7,7 @@ dotenv.config();
 
 // Inisialisasi Supabase client
 const supabase = createClient(
-    process.env.DATABASE_URL, // URL proyek Supabase Anda
+    process.env.SUPABASE_URL, // URL proyek Supabase Anda
     process.env.SUPABASE_KEY  // Kunci API Supabase Anda
 );
 
