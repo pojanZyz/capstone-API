@@ -15,4 +15,45 @@ model users {
   role      String   @default("user") @db.VarChar(5)
   createdat DateTime @default(now()) @db.Timestamp(6)
   updatedat DateTime @default(now()) @db.Timestamp(6)
+  rating    rating[]
+}
+
+model articles {
+  id        BigInt    @id @default(autoincrement())
+  title     String?
+  category  String?
+  location  String?
+  image     String?
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+model rating {
+  id        BigInt    @id @default(autoincrement())
+  rating    Rating?
+  ulasan    String?
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+  userid    Int?
+  users     users?    @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+}
+
+enum Category {
+  Wisata
+  Budaya
+}
+
+enum Rating {
+  ONE @map("1")
+  TWO @map("2")
+  THREE @map("3")
+  FOUR @map("4")
+  FIVE @map("5")
+}
+
+enum enum_rating_rating {
+  ONE @map("1")
+  TWO @map("2")
+  THREE @map("3")
+  FOUR @map("4")
+  FIVE @map("5")
 }

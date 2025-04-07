@@ -1,5 +1,6 @@
 const usersRouter = require("./router/users");
 const adminRouter = require("./router/admin");
+const articleRouter = require("./router/article");
 
 const express = require("express");
 const dotenv = require("dotenv");
@@ -14,7 +15,7 @@ app.use(cors()); // Mengizinkan semua domain mengakses API
 app.use(express.json());
 
 app.use('/users', usersRouter);
-app.use('/', adminRouter);
+app.use('/', adminRouter, articleRouter);
 
 app.listen(4000, () => {
     console.log("server berjalan di port 4000");
