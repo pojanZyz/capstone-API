@@ -134,6 +134,11 @@ const updateArticle = async (req: express.Request, res: express.Response) => {
             },
         });
 
+        const responseData = {
+            ...updatedArticle,
+            id: updatedArticle.id.toString(), // Konversi BigInt ke string
+        };
+        
         res.json({ message: 'UPDATE ARTICLE SUCCESS', data: updatedArticle });
     } catch (error: any) {
         console.error('Error updating article:', error.message || error);
