@@ -138,6 +138,8 @@
                 if (result.data && result.data.length > 0) {
                     noArticlesMessage.style.display = "none";
                     result.data.forEach((article) => {
+                        console.log(article.image);
+                        
                         const createdAt = article.createdAt
                             ? new Date(article.createdAt).toLocaleString()
                             : "N/A"; // Tampilkan "N/A" jika createdAt tidak valid

@@ -41,7 +41,7 @@ const createArticle = async (req: express.Request, res: express.Response) => {
             }
 
             // Simpan URL publik gambar
-            imageUrl = `https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/${data.path}`;
+            imageUrl = `https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/uploads/${filePath}`;
         }
 
         const result = await prisma.articles.create({
@@ -74,13 +74,13 @@ const getAllArticles = async (req: express.Request, res: express.Response) => {
         const result = await prisma.articles.findMany();
 
         // Base URL publik dari bucket Supabase
-        const baseImageUrl = "https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/uploads/articles";
+        const baseImageUrl = "https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/uploads/";
 
         // Konversi BigInt ke string dan tambahkan base URL ke path gambar
         const responseData = result.map((article: { id: bigint; image: string; [key: string]: any }) => ({
             ...article,
             id: article.id.toString(), // Konversi BigInt ke string
-            image: article.image ? `${baseImageUrl}${article.image}` : null, // Tambahkan base URL
+            image: article.image ? article.image : null, // Gunakan URL gambar langsung dari database
         }));
 
         res.json({ message: 'GET ALL ARTICLES SUCCESS', data: responseData });
