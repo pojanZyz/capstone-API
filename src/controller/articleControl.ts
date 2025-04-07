@@ -95,8 +95,8 @@ const getAllArticles = async (req: express.Request, res: express.Response) => {
 // Update Article
 const updateArticle = async (req: express.Request, res: express.Response) => {
     try {
-        const { id } = req.params;
-        const { title, category, description, location } = req.body;
+        const { id } = req.params; // ID dari parameter URL
+        const { title, category, description, location } = req.body; // Data dari body request
         let imageUrl: string | null = null;
 
         // Cek apakah ada file yang diunggah
@@ -123,8 +123,9 @@ const updateArticle = async (req: express.Request, res: express.Response) => {
             imageUrl = `https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/uploads/${filePath}`;
         }
 
+        // Update artikel di database
         const updatedArticle = await prisma.articles.update({
-            where: { id: Number(id) },
+            where: { id: BigInt(id) }, // Pastikan ID dikonversi ke BigInt
             data: {
                 title,
                 category,
@@ -134,12 +135,13 @@ const updateArticle = async (req: express.Request, res: express.Response) => {
             },
         });
 
+        // Konversi BigInt ke string sebelum mengirim respons
         const responseData = {
             ...updatedArticle,
             id: updatedArticle.id.toString(), // Konversi BigInt ke string
         };
 
-        res.json({ message: 'UPDATE ARTICLE SUCCESS', data: updatedArticle });
+        res.json({ message: 'UPDATE ARTICLE SUCCESS', data: responseData });
     } catch (error: any) {
         console.error('Error updating article:', error.message || error);
         res.status(500).json({ message: 'UPDATE ARTICLE UNSUCCESS', error: error.message || error });
