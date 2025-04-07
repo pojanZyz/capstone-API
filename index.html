@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capstone API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input, textarea, button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .response {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Capstone API Test</h1>
+
+    <!-- Form untuk POST /articles -->
+    <h2>Create Article</h2>
+    <form id="create-article-form">
+        <input type="text" id="title" placeholder="Title" required />
+        <input type="text" id="category" placeholder="Category" required />
+        <textarea id="description" placeholder="Description" required></textarea>
+        <input type="text" id="location" placeholder="Location" required />
+        <input type="file" id="image" accept="image/*" />
+        <button type="submit">Create Article</button>
+    </form>
+
+    <!-- Tombol untuk GET /articles -->
+    <h2>Get All Articles</h2>
+    <button id="get-articles">Fetch Articles</button>
+
+    <!-- Tempat untuk menampilkan respons -->
+    <div class="response" id="response"></div>
+
+    <script>
+        const apiBaseUrl = "https://capstone-api-nu.vercel.app";
+
+        // Handle POST /articles
+        document.getElementById("create-article-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append("title", document.getElementById("title").value);
+            formData.append("category", document.getElementById("category").value);
+            formData.append("description", document.getElementById("description").value);
+            formData.append("location", document.getElementById("location").value);
+            const imageFile = document.getElementById("image").files[0];
+            if (imageFile) {
+                formData.append("image", imageFile);
+            }
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/articles`, {
+                    method: "POST",
+                    body: formData,
+                });
+                const result = await response.json();
+                document.getElementById("response").innerText = JSON.stringify(result, null, 2);
+            } catch (error) {
+                document.getElementById("response").innerText = `Error: ${error.message}`;
+            }
+        });
+
+        // Handle GET /articles
+        document.getElementById("get-articles").addEventListener("click", async () => {
+            try {
+                const response = await fetch(`${apiBaseUrl}/articles`, {
+                    method: "GET"
+                });
+                const result = await response.json();
+                document.getElementById("response").innerText = JSON.stringify(result, null, 2);
+            } catch (error) {
+                document.getElementById("response").innerText = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

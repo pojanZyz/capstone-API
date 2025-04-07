@@ -43,15 +43,23 @@ const createArticle = async (req: express.Request, res: express.Response) => {
 };
 
 const getAllArticles = async (req: express.Request, res: express.Response) => {
-  try {
-      const result = await prisma.articles.findMany();
-      res.json({ message: 'GET ALL ARTICLES SUCCESS', data: result });
-  } catch (error) {
-      res.json({ message: 'GET ALL ARTICLES UNSUCCESS', error });
-  } finally {
-      await prisma.$disconnect();
-  }
-}
+    try {
+        const result = await prisma.articles.findMany();
+
+        // Konversi BigInt ke string jika diperlukan
+        const responseData = result.map((article: { id: bigint; [key: string]: any }) => ({
+            ...article,
+            id: article.id.toString(), // Konversi BigInt ke string
+        }));
+
+        res.json({ message: 'GET ALL ARTICLES SUCCESS', data: responseData });
+    } catch (error: any) {
+        console.error('Error fetching articles:', error.message || error);
+        res.status(500).json({ message: 'GET ALL ARTICLES UNSUCCESS', error: error.message || error });
+    } finally {
+        await prisma.$disconnect();
+    }
+};
 
 module.exports = {
     createArticle,
