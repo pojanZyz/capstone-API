@@ -27,14 +27,21 @@ const createArticle = async (req: express.Request, res: express.Response) => {
           },
       });
 
-      res.json({ message: 'CREATE ARTICLE SUCCESS', data: result });
-  } catch (error: any) { // Pastikan `error` memiliki tipe `any` untuk mengakses `error.message`
+      // Konversi BigInt ke string
+      const responseData = {
+          ...result,
+          id: result.id.toString(), // Konversi BigInt ke string
+      };
+
+      res.json({ message: 'CREATE ARTICLE SUCCESS', data: responseData });
+  } catch (error: any) {
       console.error('Error creating article:', error.message || error);
       res.status(500).json({ message: 'CREATE ARTICLE UNSUCCESS', error: error.message || error });
   } finally {
       await prisma.$disconnect();
   }
 };
+
 module.exports = {
     createArticle
   }
