@@ -42,6 +42,17 @@ const createArticle = async (req: express.Request, res: express.Response) => {
   }
 };
 
+const getAllArticles = async (req: express.Request, res: express.Response) => {
+  try {
+      const result = await prisma.articles.findMany();
+      res.json({ message: 'GET ALL ARTICLES SUCCESS', data: result });
+  } catch (error) {
+      res.json({ message: 'GET ALL ARTICLES UNSUCCESS', error });
+  } finally {
+      await prisma.$disconnect();
+  }
+}
+
 module.exports = {
     createArticle
   }
