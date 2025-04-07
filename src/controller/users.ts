@@ -65,7 +65,7 @@ const login = async (req: express.Request, res: express.Response) => {
 
         const payload = { id: user.id, username: user.username,email: user.email, role: user.role };
         const secret = process.env.JWT_SECRET;
-        const token = jwt.sign(payload, secret, { expiresIn: "1h" });
+        const token = jwt.sign(payload, secret, { expiresIn: "24h" });
 
         res.json({
             message: user.role === "admin" ? "Login admin successful" : "Login user successful",
