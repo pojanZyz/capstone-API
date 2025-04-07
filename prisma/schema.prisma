@@ -21,7 +21,7 @@ model users {
 model articles {
   id          BigInt    @id(map: "articles_pkey1") @default(autoincrement())
   title       String?
-  category    String?
+  category    Category?
   description String?
   location    String?
   image       String?

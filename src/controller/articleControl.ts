@@ -7,8 +7,8 @@ dotenv.config();
 
 // Inisialisasi Supabase client
 const supabase = createClient(
-    process.env.SUPABASE_URL, // URL proyek Supabase Anda
-    process.env.SUPABASE_KEY  // Kunci API Supabase Anda
+    process.env.SUPABASE_URL, 
+    process.env.SUPABASE_KEY  
 );
 
 const cleanFileName = (fileName: string): string => {
@@ -20,7 +20,15 @@ const createArticle = async (req: express.Request, res: express.Response) => {
         const { title, category, description, location } = req.body;
         let imageUrl: string | null = null;
 
-        // Cek apakah ada file yang diunggah
+        // Validasi category
+        const validCategories = ["Wisata", "Budaya"];
+        if (!validCategories.includes(category)) {
+            return res.status(400).json({
+                message: "CREATE ARTICLE UNSUCCESS",
+                error: `Invalid category. Allowed values are: ${validCategories.join(", ")}`,
+            });
+        }
+
         if (req.file) {
             console.log('File uploaded:', req.file.originalname);
 
@@ -98,6 +106,15 @@ const updateArticle = async (req: express.Request, res: express.Response) => {
         const { id } = req.params; // ID dari parameter URL
         const { title, category, description, location } = req.body; // Data dari body request
         let imageUrl: string | null = null;
+
+        // Validasi category
+        const validCategories = ["Wisata", "Budaya"];
+        if (category && !validCategories.includes(category)) {
+            return res.status(400).json({
+                message: "UPDATE ARTICLE UNSUCCESS",
+                error: `Invalid category. Allowed values are: ${validCategories.join(", ")}`,
+            });
+        }
 
         // Cek apakah ada file yang diunggah
         if (req.file) {
