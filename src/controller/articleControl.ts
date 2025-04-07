@@ -92,7 +92,79 @@ const getAllArticles = async (req: express.Request, res: express.Response) => {
     }
 };
 
+// Update Article
+const updateArticle = async (req: express.Request, res: express.Response) => {
+    try {
+        const { id } = req.params;
+        const { title, category, description, location } = req.body;
+        let imageUrl: string | null = null;
+
+        // Cek apakah ada file yang diunggah
+        if (req.file) {
+            console.log('File uploaded:', req.file.originalname);
+
+            // Bersihkan nama file
+            const originalName = req.file.originalname;
+            const cleanedName = cleanFileName(originalName);
+            const filePath = `articles/${Date.now()}-${cleanedName}`;
+
+            // Unggah file ke bucket Supabase
+            const { data, error } = await supabase.storage
+                .from('uploads') // Nama bucket
+                .upload(filePath, req.file.buffer, {
+                    contentType: req.file.mimetype,
+                });
+
+            if (error) {
+                throw new Error(`Failed to upload image: ${error.message}`);
+            }
+
+            // Simpan URL publik gambar
+            imageUrl = `https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/uploads/${filePath}`;
+        }
+
+        const updatedArticle = await prisma.articles.update({
+            where: { id: BigInt(id) },
+            data: {
+                title,
+                category,
+                description,
+                location,
+                image: imageUrl || undefined, // Update gambar hanya jika ada file baru
+            },
+        });
+
+        res.json({ message: 'UPDATE ARTICLE SUCCESS', data: updatedArticle });
+    } catch (error: any) {
+        console.error('Error updating article:', error.message || error);
+        res.status(500).json({ message: 'UPDATE ARTICLE UNSUCCESS', error: error.message || error });
+    } finally {
+        await prisma.$disconnect();
+    }
+};
+
+// Delete Article
+const deleteArticle = async (req: express.Request, res: express.Response) => {
+    try {
+        const { id } = req.params;
+
+        // Hapus artikel dari database
+        const deletedArticle = await prisma.articles.delete({
+            where: { id: BigInt(id) },
+        });
+
+        res.json({ message: 'DELETE ARTICLE SUCCESS', data: deletedArticle });
+    } catch (error: any) {
+        console.error('Error deleting article:', error.message || error);
+        res.status(500).json({ message: 'DELETE ARTICLE UNSUCCESS', error: error.message || error });
+    } finally {
+        await prisma.$disconnect();
+    }
+};
+
 module.exports = {
     createArticle,
     getAllArticles,
+    updateArticle,
+    deleteArticle,
 };
