@@ -160,6 +160,11 @@ const deleteArticle = async (req: express.Request, res: express.Response) => {
             where: { id: BigInt(id) },
         });
 
+        const responseData = {
+            ...deletedArticle,
+            id: deletedArticle.id.toString(), // Konversi BigInt ke string
+        };
+
         res.json({ message: 'DELETE ARTICLE SUCCESS', data: deletedArticle });
     } catch (error: any) {
         console.error('Error deleting article:', error.message || error);
