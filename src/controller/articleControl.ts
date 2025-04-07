@@ -107,6 +107,16 @@ const updateArticle = async (req: express.Request, res: express.Response) => {
         const { title, category, description, location } = req.body; // Data dari body request
         let imageUrl: string | null = null;
 
+        const existingArticle = await prisma.articles.findUnique({
+            where: { id: BigInt(id) },
+        });
+        if (!existingArticle) {
+            return res.status(404).json({
+                message: "UPDATE ARTICLE UNSUCCESS",
+                error: "Article not found",
+            });
+        }
+
         // Validasi category
         const validCategories = ["Wisata", "Budaya"];
         if (category && !validCategories.includes(category)) {
@@ -115,6 +125,7 @@ const updateArticle = async (req: express.Request, res: express.Response) => {
                 error: `Invalid category. Allowed values are: ${validCategories.join(", ")}`,
             });
         }
+
 
         // Cek apakah ada file yang diunggah
         if (req.file) {
@@ -171,6 +182,16 @@ const updateArticle = async (req: express.Request, res: express.Response) => {
 const deleteArticle = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params;
+
+        const existingArticle = await prisma.articles.findUnique({
+            where: { id: BigInt(id) },
+        });
+        if (!existingArticle) {
+            return res.status(404).json({
+                message: "UPDATE ARTICLE UNSUCCESS",
+                error: "Article not found",
+            });
+        }
 
         // Hapus artikel dari database
         const deletedArticle = await prisma.articles.delete({
