@@ -8,7 +8,7 @@ dotenv.config();
 
 const createArticle = async (req: express.Request, res: express.Response) => {
     try {
-        const { title, content } = req.body;
+        const { title, category, desc, location } = req.body;
         let imageUrl: string | null = null;
 
         // Cek apakah ada file yang diunggah
@@ -20,8 +20,10 @@ const createArticle = async (req: express.Request, res: express.Response) => {
         const result = await prisma.articles.create({
             data: {
                 title,
-                content,
-                image_url: imageUrl,
+                category,
+                desc,
+                location,
+                image: imageUrl, // Simpan URL gambar ke database
             },
         });
 
