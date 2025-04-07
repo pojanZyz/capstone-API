@@ -1,8 +1,15 @@
 import express from 'express';
 const prisma = require('../config/prisma');
 const dotenv = require('dotenv');
+const { createClient } = require('@supabase/supabase-js');
 
 dotenv.config();
+
+// Inisialisasi Supabase client
+const supabase = createClient(
+    process.env.DATABASE_URL, // URL proyek Supabase Anda
+    process.env.SUPABASE_KEY  // Kunci API Supabase Anda
+);
 
 const createArticle = async (req: express.Request, res: express.Response) => {
   try {
@@ -12,7 +19,20 @@ const createArticle = async (req: express.Request, res: express.Response) => {
       // Cek apakah ada file yang diunggah
       if (req.file) {
           console.log('File uploaded:', req.file.originalname);
-          imageUrl = `uploads/${Date.now()}-${req.file.originalname}`;
+
+          // Unggah file ke bucket Supabase
+          const { data, error } = await supabase.storage
+              .from('uploads') // Nama bucket
+              .upload(`articles/${Date.now()}-${req.file.originalname}`, req.file.buffer, {
+                  contentType: req.file.mimetype,
+              });
+
+          if (error) {
+              throw new Error(`Failed to upload image: ${error.message}`);
+          }
+
+          // Simpan URL publik gambar
+          imageUrl = `https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/${data.path}`;
       }
 
       const result = await prisma.articles.create({

@@ -80,12 +80,16 @@
                     method: "GET"
                 });
                 const result = await response.json();
-
+        
                 if (result.data) {
                     const tableBody = document.querySelector("#articles-table tbody");
                     tableBody.innerHTML = ""; // Kosongkan tabel sebelum menambahkan data baru
-
+        
                     result.data.forEach((article) => {
+                        const createdAt = article.createdAt
+                            ? new Date(article.createdAt).toLocaleString()
+                            : "N/A"; // Tampilkan "N/A" jika createdAt tidak valid
+        
                         const row = document.createElement("tr");
                         row.innerHTML = `
                             <td>${article.id}</td>
@@ -94,7 +98,7 @@
                             <td>${article.description}</td>
                             <td>${article.location}</td>
                             <td><img src="${article.image}" alt="Article Image" /></td>
-                            <td>${new Date(article.createdAt).toLocaleString()}</td>
+                            <td>${createdAt}</td>
                         `;
                         tableBody.appendChild(row);
                     });
@@ -105,7 +109,6 @@
                 alert(`Error: ${error.message}`);
             }
         }
-
         // Panggil fungsi loadArticles saat halaman dimuat
         window.onload = loadArticles;
 
