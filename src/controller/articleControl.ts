@@ -8,7 +8,7 @@ dotenv.config();
 
 const createArticle = async (req: express.Request, res: express.Response) => {
     try {
-        const { title, category, desc, location } = req.body;
+        const { title, category, description, location } = req.body;
         let imageUrl: string | null = null;
 
         // Cek apakah ada file yang diunggah
@@ -21,7 +21,7 @@ const createArticle = async (req: express.Request, res: express.Response) => {
             data: {
                 title,
                 category,
-                desc,
+                description,
                 location,
                 image: imageUrl, // Simpan URL gambar ke database
             },

@@ -19,13 +19,14 @@ model users {
 }
 
 model articles {
-  id        BigInt    @id @default(autoincrement())
-  title     String?
-  category  String?
-  location  String?
-  image     String?
-  createdAt DateTime? @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime? @default(now()) @db.Timestamptz(6)
+  id          BigInt    @id(map: "articles_pkey1") @default(autoincrement())
+  title       String?
+  category    String?
+  description String?
+  location    String?
+  image       String?
+  createdat   DateTime? @default(now()) @db.Timestamptz(6)
+  updatedat   DateTime? @default(now()) @db.Timestamptz(6)
 }
 
 model rating {
@@ -43,17 +44,17 @@ enum Category {
 }
 
 enum Rating {
-  ONE @map("1")
-  TWO @map("2")
+  ONE   @map("1")
+  TWO   @map("2")
   THREE @map("3")
-  FOUR @map("4")
-  FIVE @map("5")
+  FOUR  @map("4")
+  FIVE  @map("5")
 }
 
 enum enum_rating_rating {
-  ONE @map("1")
-  TWO @map("2")
+  ONE   @map("1")
+  TWO   @map("2")
   THREE @map("3")
-  FOUR @map("4")
-  FIVE @map("5")
+  FOUR  @map("4")
+  FIVE  @map("5")
 }
