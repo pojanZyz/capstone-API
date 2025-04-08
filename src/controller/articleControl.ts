@@ -17,7 +17,7 @@ const cleanFileName = (fileName: string): string => {
 
 const createArticle = async (req: express.Request, res: express.Response) => {
     try {
-        const { title, category, description, location } = req.body;
+        const { title, category, shortdesc, longdesc, location } = req.body;
         let imageUrl: string | null = null;
 
         // Validasi category
@@ -56,7 +56,8 @@ const createArticle = async (req: express.Request, res: express.Response) => {
             data: {
                 title,
                 category,
-                description,
+                shortdesc,
+                longdesc,
                 location,
                 image: imageUrl, // Simpan URL gambar ke database
             },
@@ -104,7 +105,7 @@ const getAllArticles = async (req: express.Request, res: express.Response) => {
 const updateArticle = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params; // ID dari parameter URL
-        const { title, category, description, location } = req.body; // Data dari body request
+        const { title, category, shortdesc, longdesc, location } = req.body; // Data dari body request
         let imageUrl: string | null = null;
 
         const existingArticle = await prisma.articles.findUnique({
@@ -157,7 +158,8 @@ const updateArticle = async (req: express.Request, res: express.Response) => {
             data: {
                 title,
                 category,
-                description,
+                shortdesc,
+                longdesc,
                 location,
                 image: imageUrl || undefined, // Update gambar hanya jika ada file baru
             },
