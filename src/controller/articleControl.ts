@@ -111,7 +111,7 @@ const getArticleById = async (req: express.Request, res: express.Response) => {
         const responseData = {
             ...article,
             id: article.id.toString(), // Konversi BigInt ke string
-            image: article.image ? `${baseImageUrl}${article.image}` : null, // Tambahkan base URL jika ada gambar
+            image: article.image ? article.image : null, // Gunakan URL gambar langsung dari database
         };
 
         res.json({ message: 'GET ARTICLE BY ID SUCCESS', data: responseData });
@@ -121,7 +121,7 @@ const getArticleById = async (req: express.Request, res: express.Response) => {
     } finally {
         await prisma.$disconnect();
     }
-};
+}
 
 // Update Article
 const updateArticle = async (req: express.Request, res: express.Response) => {
