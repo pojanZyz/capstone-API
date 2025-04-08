@@ -92,6 +92,37 @@ const getAllArticles = async (req: express.Request, res: express.Response) => {
     }
 };
 
+const getArticleById = async (req: express.Request, res: express.Response) => {
+    try {
+        const { id } = req.params; // ID dari parameter URL
+
+        const article = await prisma.articles.findUnique({
+            where: { id: BigInt(id) }, // Pastikan ID dikonversi ke BigInt
+        });
+
+        if (!article) {
+            return res.status(404).json({ message: 'Article not found!' });
+        }
+
+        // Base URL publik dari bucket Supabase
+        const baseImageUrl = "https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/uploads/";
+
+        // Konversi BigInt ke string dan tambahkan base URL ke path gambar
+        const responseData = {
+            ...article,
+            id: article.id.toString(), // Konversi BigInt ke string
+            image: article.image ? article.image : null, // Gunakan URL gambar langsung dari database
+        };
+
+        res.json({ message: 'GET ARTICLE BY ID SUCCESS', data: responseData });
+    } catch (error: any) {
+        console.error('Error fetching article:', error.message || error);
+        res.status(500).json({ message: 'GET ARTICLE BY ID UNSUCCESS', error: error.message || error });
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+
 // Update Article
 const updateArticle = async (req: express.Request, res: express.Response) => {
     try {
@@ -210,4 +241,5 @@ module.exports = {
     getAllArticles,
     updateArticle,
     deleteArticle,
+    getArticleById
 };
