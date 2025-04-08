@@ -99,4 +99,94 @@ const getFeedbackByArticle = async (req: express.Request, res: express.Response)
     }
 };
 
-module.exports = { addFeedback, getFeedbackByArticle };
+// Update Feedback
+const updateFeedback = async (req: ValidationRequest, res: express.Response) => {
+    try {
+        const { id } = req.params; // ID feedback
+        const { rating, ulasan } = req.body; // Data baru untuk feedback
+        const userId = req.userData.id; // ID user dari token
+        const userRole = req.userData.role; // Role user dari token
+
+        // Validasi input
+        if (!rating || !ulasan) {
+            return res.status(400).json({ message: "Rating and review are required!" });
+        }
+
+        // Validasi rating (1-5)
+        if (![1, 2, 3, 4, 5].includes(rating)) {
+            return res.status(400).json({ message: "Rating must be between 1 and 5!" });
+        }
+
+        // Ambil feedback berdasarkan ID
+        const feedback = await prisma.feedback.findUnique({
+            where: { id: BigInt(id) },
+        });
+
+        if (!feedback) {
+            return res.status(404).json({ message: "Feedback not found!" });
+        }
+
+        // Periksa apakah user memiliki izin untuk mengubah feedback
+        if (userRole !== "admin" && feedback.userid !== parseInt(userId)) {
+            return res.status(403).json({ message: "You are not authorized to update this feedback!" });
+        }
+
+        // Update feedback
+        const updatedFeedback = await prisma.feedback.update({
+            where: { id: BigInt(id) },
+            data: { rating, ulasan },
+        });
+
+        res.json({
+            message: "Feedback updated successfully!",
+            data: {
+                id: updatedFeedback.id.toString(),
+                rating: updatedFeedback.rating,
+                ulasan: updatedFeedback.ulasan,
+                createdAt: updatedFeedback.createdAt,
+            },
+        });
+    } catch (error) {
+        console.error("Error updating feedback:", error);
+        res.status(500).json({ message: "Internal server error", error });
+    } finally {
+        await prisma.$disconnect();
+    }
+};
+
+// Delete Feedback
+const deleteFeedback = async (req: ValidationRequest, res: express.Response) => {
+    try {
+        const { id } = req.params; // ID feedback
+        const userId = req.userData.id; // ID user dari token
+        const userRole = req.userData.role; // Role user dari token
+
+        // Ambil feedback berdasarkan ID
+        const feedback = await prisma.feedback.findUnique({
+            where: { id: BigInt(id) },
+        });
+
+        if (!feedback) {
+            return res.status(404).json({ message: "Feedback not found!" });
+        }
+
+        // Periksa apakah user memiliki izin untuk menghapus feedback
+        if (userRole !== "admin" && feedback.userid !== parseInt(userId)) {
+            return res.status(403).json({ message: "You are not authorized to delete this feedback!" });
+        }
+
+        // Hapus feedback
+        await prisma.feedback.delete({
+            where: { id: BigInt(id) },
+        });
+
+        res.json({ message: "Feedback deleted successfully!" });
+    } catch (error) {
+        console.error("Error deleting feedback:", error);
+        res.status(500).json({ message: "Internal server error", error });
+    } finally {
+        await prisma.$disconnect();
+    }
+};
+
+module.exports = { addFeedback, getFeedbackByArticle, updateFeedback, deleteFeedback };
