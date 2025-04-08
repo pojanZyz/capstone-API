@@ -66,4 +66,37 @@ const addFeedback = async (req: ValidationRequest , res: express.Response) => {
     }
 };
 
-module.exports = { addFeedback };
+const getFeedbackByArticle = async (req: express.Request, res: express.Response) => {
+    try {
+        const { id } = req.params; // ID artikel
+
+        // Ambil semua feedback berdasarkan articleId
+        const feedbacks = await prisma.feedback.findMany({
+            where: { articleid: BigInt(id) },
+            include: { users: true }, // Sertakan data pengguna
+        });
+
+        if (feedbacks.length === 0) {
+            return res.status(404).json({ message: "No feedback found for this article." });
+        }
+
+        // Format respons
+        const formattedFeedbacks = feedbacks.map((feedback: typeof prisma.feedback) => ({
+            id: feedback.id.toString(),
+            username: feedback.users?.username || "Anonymous",
+            rating: feedback.rating,
+            ulasan: feedback.ulasan,
+            createdAt: feedback.createdAt,
+        }));
+
+        res.json({
+            message: "Feedback retrieved successfully!",
+            data: formattedFeedbacks,
+        });
+    } catch (error) {
+        console.error("Error retrieving feedback:", error);
+        res.status(500).json({ message: "Internal server error", error });
+    }
+};
+
+module.exports = { addFeedback, getFeedbackByArticle };
