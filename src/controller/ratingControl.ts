@@ -42,8 +42,8 @@ const addFeedback = async (req: ValidationRequest , res: express.Response) => {
             data: {
                 rating,
                 ulasan,
-                userid: parseInt(userId),
-                users: { connect: { id: parseInt(userId) } }, // Hubungkan dengan user
+                users: { connect: { id: parseInt(userId) } }, // Hubungkan dengan user melalui relasi
+                articles: { connect: { id: BigInt(id) } }, // Hubungkan dengan artikel melalui relasi
                 createdAt: new Date(),
             },
         });

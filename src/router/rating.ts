@@ -8,3 +8,4 @@ const router = express.Router();
 router.post('/articles/:id/feedback', accessValidation, addFeedback);
 
 module.exports = router;
+
