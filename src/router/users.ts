@@ -1,12 +1,12 @@
 const {register,login,logout,getUserLogin} = require("../controller/users");
-const {accessValidation} = require("../middleware/accessValidation")
+const {accessValidation} = require("../middleware/accessValidation");
+const upload = require('../middleware/upload'); 
 import express from "express";
-const jwt = require("jsonwebtoken");
 
 const app = express.Router();
 
 //  REGISTER
-app.post('/register', register);
+app.post('/register', upload.single('image'), register);
 
 // LOGIN
 app.post('/login', login);

@@ -5,6 +5,8 @@ const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");                                
 const accessValidation = require("../middleware/accessValidation")
+const cleanFileName = require("../middleware/cleanFileName");
+const { supabase } = require("../config/supabaseClient");
 dotenv.config();
 
 interface UserData {
@@ -19,9 +21,13 @@ interface ValidationRequest extends express.Request {
     userData: UserData;
 }
 
-const register = async (req : express.Request, res : express.Response) => {
+
+
+const register = async (req: express.Request, res: express.Response) => {
     try {
         const { username, password, email } = req.body;
+
+        // Validasi input
         if (!username || !password || !email) {
             return res.status(400).json({ message: "All fields are required!" });
         }
@@ -32,6 +38,32 @@ const register = async (req : express.Request, res : express.Response) => {
             return res.status(400).json({ message: "Email already registered!" });
         }
 
+        let imageUrl: string | null = null;
+
+        // Cek apakah ada file yang diunggah
+        if (req.file) {
+            console.log('File uploaded:', req.file.originalname);
+
+            // Bersihkan nama file
+            const originalName = req.file.originalname;
+            const cleanedName = cleanFileName(originalName);
+            const filePath = `users/${Date.now()}-${cleanedName}`;
+
+            // Unggah file ke bucket Supabase
+            const { data, error } = await supabase.storage
+                .from('uploads') // Nama bucket
+                .upload(filePath, req.file.buffer, {
+                    contentType: req.file.mimetype,
+                });
+
+            if (error) {
+                throw new Error(`Failed to upload image: ${error.message}`);
+            }
+
+            // Simpan URL publik gambar
+            imageUrl = `https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/uploads/${filePath}`;
+        }
+
         console.log("Password sebelum hash:", password);
 
         // Hash password
@@ -39,14 +71,20 @@ const register = async (req : express.Request, res : express.Response) => {
 
         // Simpan user
         const result = await prisma.users.create({
-            data: { username, password: hashedPass, email, role: "user" }
+            data: {
+                username,
+                password: hashedPass,
+                email,
+                role: "user",
+                image: imageUrl, // Simpan URL gambar ke database
+            },
         });
 
         res.json({ message: "REGISTER IS SUCCESS", data: result });
     } catch (error) {
         console.error("Register error:", error);
         res.status(500).json({ message: "REGISTER IS UNSUCCESS", error: error });
-    }finally{
+    } finally {
         await prisma.$disconnect();
     }
 };

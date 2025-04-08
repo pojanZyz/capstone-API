@@ -1,19 +1,10 @@
 import express from 'express';
 const prisma = require('../config/prisma');
 const dotenv = require('dotenv');
-const { createClient } = require('@supabase/supabase-js');
+const cleanFileName = require("../middleware/cleanFileName");
+const { supabase } = require("../config/supabaseClient");
 
 dotenv.config();
-
-// Inisialisasi Supabase client
-const supabase = createClient(
-    process.env.SUPABASE_URL, 
-    process.env.SUPABASE_KEY  
-);
-
-const cleanFileName = (fileName: string): string => {
-    return fileName.replace(/[^a-zA-Z0-9.-]/g, "_"); // Ganti karakter khusus dengan "_"
-};
 
 const createArticle = async (req: express.Request, res: express.Response) => {
     try {

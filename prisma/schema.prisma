@@ -15,7 +15,6 @@ model users {
   role      String   @default("user") @db.VarChar(5)
   createdat DateTime @default(now()) @db.Timestamp(6)
   updatedat DateTime @default(now()) @db.Timestamp(6)
-  rating    rating[]
 }
 
 model articles {
@@ -30,13 +29,13 @@ model articles {
   updatedat DateTime? @default(now()) @db.Timestamptz(6)
 }
 
-model rating {
-  id        BigInt    @id @default(autoincrement())
-  rating    Rating?
-  ulasan    String?
-  createdAt DateTime? @default(now()) @db.Timestamp(6)
-  userid    Int?
-  users     users?    @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user")
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model feedback {
+  id         BigInt   @id @default(autoincrement())
+  rating     Rating?
+  ulasan     String?
+  username   String?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
 }
 
 enum Category {
