@@ -126,11 +126,6 @@ const updateFeedback = async (req: ValidationRequest, res: express.Response) => 
             return res.status(404).json({ message: "Feedback not found!" });
         }
 
-        // Periksa apakah user memiliki izin untuk mengubah feedback
-        if (userRole !== "admin" && feedback.userid !== parseInt(userId)) {
-            return res.status(403).json({ message: "You are not authorized to update this feedback!" });
-        }
-
         // Update feedback
         const updatedFeedback = await prisma.feedback.update({
             where: { id: BigInt(id) },
@@ -170,10 +165,6 @@ const deleteFeedback = async (req: ValidationRequest, res: express.Response) => 
             return res.status(404).json({ message: "Feedback not found!" });
         }
 
-        // Periksa apakah user memiliki izin untuk menghapus feedback
-        if (userRole !== "admin" && feedback.userid !== parseInt(userId)) {
-            return res.status(403).json({ message: "You are not authorized to delete this feedback!" });
-        }
 
         // Hapus feedback
         await prisma.feedback.delete({
