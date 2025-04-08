@@ -1,7 +1,20 @@
+import { User } from '@supabase/supabase-js';
 import express from 'express';
 const prisma = require('../config/prisma');
 
-const addRating = async (req: express.Request, res: express.Response) => {
+interface UserData{
+    id: string;
+    username: string;
+    role: string;
+    image: string;
+}
+
+interface ValidationRequest extends express.Request {
+    headers: express.Request["headers"] & { authorization: string }; 
+    userData: UserData;
+}
+
+const addFeedback = async (req: ValidationRequest , res: express.Response) => {
     try {
         const { id } = req.params; // ID artikel
         const { rating, ulasan } = req.body; // Data rating dan ulasan
@@ -24,8 +37,8 @@ const addRating = async (req: express.Request, res: express.Response) => {
             return res.status(404).json({ message: "Article not found!" });
         }
 
-        // Simpan rating dan ulasan ke database
-        const result = await prisma.rating.create({
+        // Simpan feedback ke database
+        const result = await prisma.feedback.create({
             data: {
                 rating,
                 ulasan,
@@ -36,7 +49,7 @@ const addRating = async (req: express.Request, res: express.Response) => {
         });
 
         res.json({
-            message: "Rating and review added successfully!",
+            message: "Feedback added successfully!",
             data: {
                 id: result.id.toString(),
                 username,
@@ -46,11 +59,11 @@ const addRating = async (req: express.Request, res: express.Response) => {
             },
         });
     } catch (error) {
-        console.error("Error adding rating:", error);
+        console.error("Error adding feedback:", error);
         res.status(500).json({ message: "Internal server error", error });
     } finally {
         await prisma.$disconnect();
     }
 };
 
-module.exports = { addRating };
+module.exports = { addFeedback };

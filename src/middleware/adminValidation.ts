@@ -6,6 +6,7 @@ interface UserData {
     id: string;
     username: string;
     role: string;
+    image: string;
 }
 
 interface ValidationRequest extends Request {

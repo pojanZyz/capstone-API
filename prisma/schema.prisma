@@ -8,35 +8,39 @@ datasource db {
 }
 
 model users {
-  id        Int      @id @default(autoincrement()) @map("id")
-  username  String   @db.VarChar(50)
-  password  String   @db.VarChar(255)
-  email     String   @unique @db.VarChar(255)
-  role      String   @default("user") @db.VarChar(5)
-  createdat DateTime @default(now()) @db.Timestamp(6)
-  updatedat DateTime @default(now()) @db.Timestamp(6)
+  id        Int        @id @default(autoincrement()) @map("id")
+  username  String     @db.VarChar(50)
+  password  String     @db.VarChar(255)
+  email     String     @unique @db.VarChar(255)
+  role      String     @default("user") @db.VarChar(5)
+  createdat DateTime   @default(now()) @db.Timestamp(6)
+  updatedat DateTime   @default(now()) @db.Timestamp(6)
   image     String?
+  feedbacks feedback[]
 }
 
 model articles {
-  id        BigInt    @id @default(autoincrement())
+  id        BigInt     @id @default(autoincrement())
   title     String?
   category  String?
   shortdesc String?
   longdesc  String?
   location  String?
   image     String?
-  createdat DateTime? @default(now()) @db.Timestamptz(6)
-  updatedat DateTime? @default(now()) @db.Timestamptz(6)
+  createdat DateTime?  @default(now()) @db.Timestamptz(6)
+  updatedat DateTime?  @default(now()) @db.Timestamptz(6)
+  feedbacks feedback[]
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model feedback {
-  id         BigInt   @id @default(autoincrement())
-  rating     Rating?
-  ulasan     String?
-  username   String?
-  created_at DateTime @default(now()) @db.Timestamptz(6)
+  id        BigInt    @id @default(autoincrement())
+  rating    Int
+  ulasan    String
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+  userid    Int
+  articleid BigInt
+  users     users?    @relation(fields: [userid], references: [id], onDelete: Cascade)
+  articles  articles? @relation(fields: [articleid], references: [id], onDelete: Cascade)
 }
 
 enum Category {
