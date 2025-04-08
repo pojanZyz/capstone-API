@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capstone API Test</title>
+    <title>Capstone API Frontend</title>
     <style>
+        /* Styling umum */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f9;
@@ -81,14 +82,53 @@
             margin-top: 20px;
             color: #888;
         }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+        }
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Capstone API Test</h1>
+        <h1>Capstone API Frontend</h1>
     </header>
     <main>
-        <!-- Form untuk POST /articles -->
+        <!-- Login Form -->
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="email" id="login-email" placeholder="Email" required />
+            <input type="password" id="login-password" placeholder="Password" required />
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Register Form -->
+        <h2>Register</h2>
+        <form id="register-form">
+            <input type="text" id="register-username" placeholder="Username" required />
+            <input type="email" id="register-email" placeholder="Email" required />
+            <input type="password" id="register-password" placeholder="Password" required />
+            <button type="submit">Register</button>
+        </form>
+
+        <!-- Create Article Form -->
         <h2>Create Article</h2>
         <form id="create-article-form">
             <input type="text" id="title" placeholder="Title" required />
@@ -99,7 +139,7 @@
             <button type="submit">Create Article</button>
         </form>
 
-        <!-- Tabel untuk menampilkan artikel -->
+        <!-- Articles Table -->
         <h2>All Articles</h2>
         <table id="articles-table">
             <thead>
@@ -110,40 +150,94 @@
                     <th>Description</th>
                     <th>Location</th>
                     <th>Image</th>
-                    <th>Created At</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Data artikel akan ditambahkan di sini -->
+                <!-- Articles will be dynamically added here -->
             </tbody>
         </table>
         <div class="no-articles" id="no-articles" style="display: none;">No articles found.</div>
+
+        <!-- Popup for Update Article -->
+        <div class="popup-overlay" id="popup-overlay"></div>
+        <div class="popup" id="update-popup">
+            <h2>Update Article</h2>
+            <form id="update-article-form">
+                <input type="text" id="update-title" placeholder="Title" required />
+                <input type="text" id="update-category" placeholder="Category" required />
+                <textarea id="update-description" placeholder="Description" required></textarea>
+                <input type="text" id="update-location" placeholder="Location" required />
+                <input type="file" id="update-image" accept="image/*" />
+                <button type="submit">Update Article</button>
+            </form>
+        </div>
     </main>
 
     <script>
         const apiBaseUrl = "https://capstone-api-nu.vercel.app";
+        let authToken = "";
 
-        // Fungsi untuk memuat artikel dan menampilkan dalam tabel
+        // Login
+        document.getElementById("login-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/users/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password }),
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    authToken = result.token;
+                    alert("Login successful!");
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        });
+
+        // Register
+        document.getElementById("register-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const username = document.getElementById("register-username").value;
+            const email = document.getElementById("register-email").value;
+            const password = document.getElementById("register-password").value;
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/users/register`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, email, password }),
+                });
+                const result = await response.json();
+                alert(result.message);
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        });
+
+        // Load Articles
         async function loadArticles() {
             try {
                 const response = await fetch(`${apiBaseUrl}/articles`, {
-                    method: "GET"
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${authToken}` },
                 });
                 const result = await response.json();
-        
+
                 const tableBody = document.querySelector("#articles-table tbody");
                 const noArticlesMessage = document.getElementById("no-articles");
-                tableBody.innerHTML = ""; // Kosongkan tabel sebelum menambahkan data baru
-        
+                tableBody.innerHTML = "";
+
                 if (result.data && result.data.length > 0) {
                     noArticlesMessage.style.display = "none";
                     result.data.forEach((article) => {
-                        console.log(article.image);
-                        
-                        const createdAt = article.createdAt
-                            ? new Date(article.createdAt).toLocaleString()
-                            : "N/A"; // Tampilkan "N/A" jika createdAt tidak valid
-        
                         const row = document.createElement("tr");
                         row.innerHTML = `
                             <td>${article.id}</td>
@@ -152,7 +246,10 @@
                             <td>${article.description}</td>
                             <td>${article.location}</td>
                             <td><img src="${article.image}" alt="Article Image" /></td>
-                            <td>${createdAt}</td>
+                            <td>
+                                <button onclick="showUpdatePopup(${article.id})">Update</button>
+                                <button onclick="deleteArticle(${article.id})">Delete</button>
+                            </td>
                         `;
                         tableBody.appendChild(row);
                     });
@@ -163,13 +260,10 @@
                 alert(`Error: ${error.message}`);
             }
         }
-        // Panggil fungsi loadArticles saat halaman dimuat
-        window.onload = loadArticles;
 
-        // Handle POST /articles
+        // Create Article
         document.getElementById("create-article-form").addEventListener("submit", async (e) => {
             e.preventDefault();
-
             const formData = new FormData();
             formData.append("title", document.getElementById("title").value);
             formData.append("category", document.getElementById("category").value);
@@ -183,15 +277,82 @@
             try {
                 const response = await fetch(`${apiBaseUrl}/articles`, {
                     method: "POST",
+                    headers: { Authorization: `Bearer ${authToken}` },
                     body: formData,
                 });
                 const result = await response.json();
-                alert(result.message); // Tampilkan pesan sukses atau error
-                loadArticles(); // Muat ulang artikel setelah berhasil membuat artikel baru
+                alert(result.message);
+                loadArticles();
             } catch (error) {
                 alert(`Error: ${error.message}`);
             }
         });
+
+        // Show Update Popup
+        function showUpdatePopup(articleId) {
+            const popup = document.getElementById("update-popup");
+            const overlay = document.getElementById("popup-overlay");
+            popup.style.display = "block";
+            overlay.style.display = "block";
+
+            document.getElementById("update-article-form").onsubmit = async (e) => {
+                e.preventDefault();
+                updateArticle(articleId);
+            };
+        }
+
+        // Hide Update Popup
+        function hideUpdatePopup() {
+            const popup = document.getElementById("update-popup");
+            const overlay = document.getElementById("popup-overlay");
+            popup.style.display = "none";
+            overlay.style.display = "none";
+        }
+
+        // Update Article
+        async function updateArticle(articleId) {
+            const formData = new FormData();
+            formData.append("title", document.getElementById("update-title").value);
+            formData.append("category", document.getElementById("update-category").value);
+            formData.append("description", document.getElementById("update-description").value);
+            formData.append("location", document.getElementById("update-location").value);
+            const imageFile = document.getElementById("update-image").files[0];
+            if (imageFile) {
+                formData.append("image", imageFile);
+            }
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/articles/${articleId}`, {
+                    method: "PATCH",
+                    headers: { Authorization: `Bearer ${authToken}` },
+                    body: formData,
+                });
+                const result = await response.json();
+                alert(result.message);
+                hideUpdatePopup();
+                loadArticles();
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        }
+
+        // Delete Article
+        async function deleteArticle(articleId) {
+            try {
+                const response = await fetch(`${apiBaseUrl}/articles/${articleId}`, {
+                    method: "DELETE",
+                    headers: { Authorization: `Bearer ${authToken}` },
+                });
+                const result = await response.json();
+                alert(result.message);
+                loadArticles();
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        }
+
+        // Load articles on page load
+        window.onload = loadArticles;
     </script>
 </body>
 </html>

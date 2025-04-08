@@ -5,9 +5,9 @@ const { adminValidation } = require('../middleware/adminValidation'); // Import 
 const upload = require('../middleware/upload'); // Import middleware multer
 const router = express.Router();
 
-router.post('/articles', upload.single('image'), accessValidation, adminValidation, createArticle);
-router.get('/articles', accessValidation, adminValidation, getAllArticles);
-router.patch('/articles/:id', upload.single('image'), accessValidation, adminValidation, updateArticle);
-router.delete('/articles/:id', accessValidation, adminValidation, deleteArticle);
+router.post('/articles', upload.single('image'),   createArticle);
+router.get('/articles',   getAllArticles);
+router.patch('/articles/:id', upload.single('image'),   updateArticle);
+router.delete('/articles/:id',  deleteArticle);
 
 module.exports = router;
