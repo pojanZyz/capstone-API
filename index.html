@@ -287,12 +287,12 @@
                 document.getElementById("submit-feedback").onclick = async () => {
                     const rating = document.querySelector('input[name="rating"]:checked')?.value;
                     const comment = document.getElementById("popup-comment").value;
-        
+                
                     if (!rating || !comment) {
                         alert("Please provide a rating and comment.");
                         return;
                     }
-        
+                
                     try {
                         const feedbackResponse = await fetch(`${apiBaseUrl}/articles/${articleId}/feedback`, {
                             method: "POST",
@@ -300,10 +300,14 @@
                                 "Content-Type": "application/json",
                                 Authorization: `Bearer ${authToken}`,
                             },
-                            body: JSON.stringify({ rating, comment }),
+                            body: JSON.stringify({ rating: parseInt(rating), comment }), // Pastikan rating dikirim sebagai angka
                         });
-        
+                
                         const feedbackResult = await feedbackResponse.json();
+                        if (!feedbackResponse.ok) {
+                            throw new Error(feedbackResult.message || "Failed to submit feedback.");
+                        }
+                
                         alert(feedbackResult.message);
                     } catch (error) {
                         alert(`Error submitting feedback: ${error.message}`);
