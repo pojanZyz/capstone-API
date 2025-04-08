@@ -140,7 +140,7 @@ const getUserLogin =  async (req: ValidationRequest, res: express.Response) => {
     try {
         const user = await prisma.users.findUnique({
             where: { id: parseInt(req.userData.id) },
-            select: { id: true, username: true, email: true, role: true }
+            select: { id: true, username: true, email: true, role: true, image: true }
         });
 
         if (!user) return res.status(404).json({ message: "User not found" });
