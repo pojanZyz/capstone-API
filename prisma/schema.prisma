@@ -15,6 +15,7 @@ model users {
   role      String   @default("user") @db.VarChar(5)
   createdat DateTime @default(now()) @db.Timestamp(6)
   updatedat DateTime @default(now()) @db.Timestamp(6)
+  image     String?
 }
 
 model articles {
