@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article Feedback</title>
+    <title>Capstone API Frontend</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,26 +17,39 @@
             color: white;
             padding: 20px;
             text-align: center;
-            position: relative;
-        }
-        #logout-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        #logout-button:hover {
-            background-color: #d32f2f;
         }
         main {
             padding: 20px;
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
+        }
+        h1, h2 {
+            color: #4CAF50;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        input, textarea, button, select {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
         }
         .card {
             background: white;
@@ -88,37 +101,11 @@
             border-bottom: 1px solid #ddd;
             padding: 10px 0;
         }
-        form {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        input, button, select, textarea {
-            display: block;
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Articles and Feedback</h1>
-        <button id="logout-button" style="display: none;">Logout</button>
+        <h1>Capstone API Frontend</h1>
     </header>
     <main>
         <!-- Login Form -->
@@ -129,6 +116,17 @@
             <button type="submit">Login</button>
         </form>
 
+        <!-- Register Form -->
+        <h2>Register</h2>
+        <form id="register-form">
+            <input type="text" id="register-username" placeholder="Username" required />
+            <input type="email" id="register-email" placeholder="Email" required />
+            <input type="password" id="register-password" placeholder="Password" required />
+            <button type="submit">Register</button>
+        </form>
+
+        <!-- Articles Section -->
+        <h2>Articles</h2>
         <div id="articles-container"></div>
 
         <!-- Popup for Article Details and Feedback -->
@@ -137,6 +135,7 @@
             <h2 id="popup-title"></h2>
             <img id="popup-image" src="" alt="Article Image" style="width: 100%; max-height: 300px; object-fit: cover;" />
             <p><strong>Location:</strong> <span id="popup-location"></span></p>
+            <p id="popup-description"></p>
             <h3>Feedback</h3>
             <div id="feedback-container" class="feedback"></div>
 
@@ -144,19 +143,16 @@
             <div id="feedback-form-container">
                 <h4>Leave Your Feedback</h4>
                 <div id="feedback-form">
-                    <div id="feedback-message"></div>
-                    <div id="feedback-inputs">
-                        <label for="rating">Rating:</label>
-                        <select id="rating">
-                            <option value="5">5 - Excellent</option>
-                            <option value="4">4 - Good</option>
-                            <option value="3">3 - Average</option>
-                            <option value="2">2 - Poor</option>
-                            <option value="1">1 - Terrible</option>
-                        </select>
-                        <textarea id="feedback-comment" placeholder="Write your feedback here..."></textarea>
-                        <button id="submit-feedback">Submit Feedback</button>
-                    </div>
+                    <label for="rating">Rating:</label>
+                    <select id="rating">
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Average</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Terrible</option>
+                    </select>
+                    <textarea id="feedback-comment" placeholder="Write your feedback here..."></textarea>
+                    <button id="submit-feedback">Submit Feedback</button>
                 </div>
             </div>
 
@@ -183,7 +179,6 @@
                 if (response.ok) {
                     localStorage.setItem("authToken", result.token);
                     alert("Login successful!");
-                    checkLoginStatus();
                     loadArticles();
                 } else {
                     alert(result.message);
@@ -193,32 +188,21 @@
             }
         });
 
-        // Logout
-        document.getElementById("logout-button").addEventListener("click", async () => {
-            const authToken = localStorage.getItem("authToken");
-
-            if (!authToken) {
-                alert("You are not logged in.");
-                return;
-            }
+        // Register
+        document.getElementById("register-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const username = document.getElementById("register-username").value;
+            const email = document.getElementById("register-email").value;
+            const password = document.getElementById("register-password").value;
 
             try {
-                const response = await fetch(`${apiBaseUrl}/users/logout`, {
+                const response = await fetch(`${apiBaseUrl}/users/register`, {
                     method: "POST",
-                    headers: {
-                        Authorization: `Bearer ${authToken}`,
-                    },
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, email, password }),
                 });
-
-                if (response.ok) {
-                    localStorage.removeItem("authToken");
-                    alert("Logout successful!");
-                    document.getElementById("logout-button").style.display = "none";
-                    loadArticles(); // Refresh articles without login
-                } else {
-                    const result = await response.json();
-                    alert(result.message || "Failed to logout.");
-                }
+                const result = await response.json();
+                alert(result.message);
             } catch (error) {
                 alert(`Error: ${error.message}`);
             }
@@ -241,7 +225,7 @@
                             <img src="${article.image}" alt="Article Image" />
                             <div class="card-content">
                                 <h3>${article.title}</h3>
-                                <p>${article.shortdesc}</p>
+                                <p>${article.shortDesc}</p>
                                 <button onclick="showPopup(${article.id})">Selengkapnya</button>
                             </div>
                         `;
@@ -255,37 +239,76 @@
             }
         }
 
-        // Fungsi untuk mengubah ulasan
-        async function updateFeedback(feedbackId, updatedData) {
-            const authToken = localStorage.getItem("authToken");
-            if (!authToken) {
-                alert("You need to log in to update feedback.");
-                return;
-            }
-
+        // Show Popup and Load Feedback
+        async function showPopup(articleId) {
             try {
-                const response = await fetch(`${apiBaseUrl}/feedback/${feedbackId}`, {
-                    method: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                    body: JSON.stringify(updatedData),
-                });
+                const authToken = localStorage.getItem("authToken");
+                let currentUsername = null;
 
-                if (response.ok) {
-                    alert("Feedback updated successfully!");
-                    hidePopup();
+                // Ambil username pengguna yang sedang login
+                if (authToken) {
+                    const userResponse = await fetch(`${apiBaseUrl}/users/me`, {
+                        method: "GET",
+                        headers: { Authorization: `Bearer ${authToken}` },
+                    });
+                    if (userResponse.ok) {
+                        const userResult = await userResponse.json();
+                        currentUsername = userResult.username;
+                    }
+                }
+
+                const articleResponse = await fetch(`${apiBaseUrl}/articles/${articleId}`, { method: "GET" });
+                const article = await articleResponse.json();
+
+                document.getElementById("popup-title").innerText = article.data.title;
+                document.getElementById("popup-image").src = article.data.image;
+                document.getElementById("popup-description").innerText = article.data.longDesc;
+                document.getElementById("popup-location").innerText = article.data.location;
+
+                const popup = document.getElementById("article-popup");
+                const overlay = document.getElementById("popup-overlay");
+                popup.style.display = "block";
+                overlay.style.display = "block";
+
+                const feedbackResponse = await fetch(`${apiBaseUrl}/articles/${articleId}/feedback`, { method: "GET" });
+                const feedbackResult = await feedbackResponse.json();
+
+                const feedbackContainer = document.getElementById("feedback-container");
+                feedbackContainer.innerHTML = "";
+
+                if (feedbackResult.data && feedbackResult.data.length > 0) {
+                    feedbackResult.data.forEach((feedback) => {
+                        const feedbackItem = document.createElement("div");
+                        feedbackItem.className = "feedback-item";
+                        feedbackItem.innerHTML = `
+                            <p><strong>${feedback.username}</strong> (${feedback.rating}/5): ${feedback.ulasan}</p>
+                            <small>${new Date(feedback.createdAt).toLocaleString()}</small>
+                        `;
+
+                        // Tampilkan tombol delete jika username cocok
+                        if (currentUsername === feedback.username) {
+                            const deleteButton = document.createElement("button");
+                            deleteButton.innerText = "Delete";
+                            deleteButton.onclick = async () => {
+                                if (confirm("Are you sure you want to delete this feedback?")) {
+                                    await deleteFeedback(feedback.id);
+                                    showPopup(articleId); // Refresh feedback
+                                }
+                            };
+                            feedbackItem.appendChild(deleteButton);
+                        }
+
+                        feedbackContainer.appendChild(feedbackItem);
+                    });
                 } else {
-                    const result = await response.json();
-                    alert(result.message || "Failed to update feedback.");
+                    feedbackContainer.innerHTML = "<p>No feedback available for this article.</p>";
                 }
             } catch (error) {
                 alert(`Error: ${error.message}`);
             }
         }
 
-        // Fungsi untuk menghapus ulasan
+        // Delete Feedback
         async function deleteFeedback(feedbackId) {
             const authToken = localStorage.getItem("authToken");
             if (!authToken) {
@@ -294,16 +317,13 @@
             }
 
             try {
-                const response = await fetch(`${apiBaseUrl}/feedback/${feedbackId}`, {
+                const response = await fetch(`${apiBaseUrl}/articles/${feedbackId}/feedback`, {
                     method: "DELETE",
-                    headers: {
-                        Authorization: `Bearer ${authToken}`,
-                    },
+                    headers: { Authorization: `Bearer ${authToken}` },
                 });
 
                 if (response.ok) {
                     alert("Feedback deleted successfully!");
-                    hidePopup();
                 } else {
                     const result = await response.json();
                     alert(result.message || "Failed to delete feedback.");
@@ -313,85 +333,6 @@
             }
         }
 
-        // Tambahkan tombol untuk mengubah dan menghapus ulasan jika user memiliki izin
-// Tambahkan tombol untuk mengubah dan menghapus ulasan jika user memiliki izin
-// Tambahkan tombol untuk menghapus ulasan jika username login sama dengan username ulasan
-function addFeedbackActions(feedback, currentUsername) {
-    const feedbackItem = document.createElement("div");
-    feedbackItem.className = "feedback-item";
-    feedbackItem.innerHTML = `
-        <p><strong>${feedback.username}</strong> (${feedback.rating}/5): ${feedback.ulasan}</p>
-        <small>${new Date(feedback.createdAt).toLocaleString()}</small>
-    `;
-
-    // Tampilkan tombol hapus hanya jika username login sama dengan username ulasan
-    if (currentUsername === feedback.username) {
-        const deleteButton = document.createElement("button");
-        deleteButton.innerText = "Delete";
-        deleteButton.onclick = () => {
-            if (confirm("Are you sure you want to delete this feedback?")) {
-                deleteFeedback(feedback.id);
-            }
-        };
-
-        feedbackItem.appendChild(deleteButton);
-    }
-
-    return feedbackItem;
-}
-
-// Show Popup and Load Feedback
-async function showPopup(articleId) {
-    try {
-        const authToken = localStorage.getItem("authToken");
-        let currentUsername = null;
-
-        // Ambil data pengguna yang sedang login
-        if (authToken) {
-            const userResponse = await fetch("https://capstone-api-nu.vercel.app/users/me", {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${authToken}`,
-                },
-            });
-
-            if (userResponse.ok) {
-                const userResult = await userResponse.json();
-                currentUsername = userResult.username;
-            }
-        }
-
-        const articleResponse = await fetch(`${apiBaseUrl}/articles/${articleId}`, { method: "GET" });
-        const article = await articleResponse.json();
-
-        document.getElementById("popup-title").innerText = article.data.title;
-        document.getElementById("popup-image").src = article.data.image;
-        document.getElementById("popup-location").innerText = article.data.location;
-
-        const popup = document.getElementById("article-popup");
-        const overlay = document.getElementById("popup-overlay");
-        popup.style.display = "block";
-        overlay.style.display = "block";
-
-        const feedbackResponse = await fetch(`${apiBaseUrl}/articles/${articleId}/feedback`, { method: "GET" });
-        const feedbackResult = await feedbackResponse.json();
-
-        const feedbackContainer = document.getElementById("feedback-container");
-        feedbackContainer.innerHTML = "";
-
-        if (feedbackResult.data && feedbackResult.data.length > 0) {
-            feedbackResult.data.forEach((feedback) => {
-                const feedbackItem = addFeedbackActions(feedback, currentUsername);
-                feedbackContainer.appendChild(feedbackItem);
-            });
-        } else {
-            feedbackContainer.innerHTML = "<p>No feedback available for this article.</p>";
-        }
-    } catch (error) {
-        alert(`Error: ${error.message}`);
-    }
-}
-
         // Hide Popup
         function hidePopup() {
             const popup = document.getElementById("article-popup");
@@ -400,23 +341,8 @@ async function showPopup(articleId) {
             overlay.style.display = "none";
         }
 
-        // Check Login Status
-        function checkLoginStatus() {
-            const authToken = localStorage.getItem("authToken");
-            const logoutButton = document.getElementById("logout-button");
-
-            if (authToken) {
-                logoutButton.style.display = "block";
-            } else {
-                logoutButton.style.display = "none";
-            }
-        }
-
-        // Load articles and check login status on page load
-        window.onload = () => {
-            checkLoginStatus();
-            loadArticles();
-        };
+        // Load articles on page load
+        window.onload = loadArticles;
     </script>
 </body>
 </html>

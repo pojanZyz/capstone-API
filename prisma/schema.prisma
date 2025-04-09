@@ -39,7 +39,7 @@ model feedback {
   createdAt DateTime? @default(now()) @db.Timestamp(6)
   userid    Int
   articleid BigInt
-  username  String?   @db.VarChar
+  username  String?
   articles  articles  @relation(fields: [articleid], references: [id], onDelete: Cascade)
   users     users     @relation(fields: [userid], references: [id], onDelete: Cascade)
 }
