@@ -84,7 +84,7 @@ const getFeedbackByArticle = async (req: express.Request, res: express.Response)
         // Format respons
         const formattedFeedbacks = feedbacks.map((feedback: typeof prisma.feedback) => ({
             id: feedback.id.toString(),
-            usernames: feedback.users?.username || "Anonymous",
+            username: feedback.users?.username || "Anonymous",
             rating: feedback.rating,
             ulasan: feedback.ulasan,
             createdAt: feedback.createdAt,
