@@ -42,7 +42,7 @@ const addFeedback = async (req: ValidationRequest , res: express.Response) => {
             data: {
                 rating,
                 ulasan,
-                usernames: username,
+                username,
                 users: { connect: { id: parseInt(userId) } }, // Hubungkan dengan user melalui relasi
                 articles: { connect: { id: BigInt(id) } }, // Hubungkan dengan artikel melalui relasi
                 createdAt: new Date(),
@@ -55,6 +55,7 @@ const addFeedback = async (req: ValidationRequest , res: express.Response) => {
                 id: result.id.toString(),
                 rating: result.rating,
                 ulasan: result.ulasan,
+                username: result.username,
                 createdAt: result.createdAt,
             },
         });
