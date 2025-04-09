@@ -2,7 +2,6 @@ import express from 'express';
 const { addFeedback } = require('../controller/ratingControl');
 const { accessValidation } = require('../middleware/accessValidation');
 const { getFeedbackByArticle } = require('../controller/ratingControl');
-const { updateFeedback } = require('../controller/ratingControl');
 const { deleteFeedback } = require('../controller/ratingControl');
 const router = express.Router();
 
