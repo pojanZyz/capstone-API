@@ -132,6 +132,11 @@ const updateFeedback = async (req: ValidationRequest, res: express.Response) => 
             data: { rating, ulasan },
         });
 
+        // Update Feedback
+        if (req.userData.role !== "admin" && feedback.userid !== parseInt(req.userData.id)) {
+            return res.status(403).json({ message: "You are not authorized to update this feedback!" });
+        }
+        
         res.json({
             message: "Feedback updated successfully!",
             data: {
