@@ -14,12 +14,13 @@ interface ValidationRequest extends express.Request {
     userData: UserData;
 }
 
-const addFeedback = async (req: ValidationRequest , res: express.Response) => {
+const addFeedback = async (req: ValidationRequest, res: express.Response) => {
     try {
         const { id } = req.params; // ID artikel
         const { rating, ulasan } = req.body; // Data rating dan ulasan
         const userId = req.userData.id; // ID user dari token
         const username = req.userData.username; // Username dari token
+        const userImage = req.userData.image; // Image dari token
 
         // Validasi input
         if (!rating || !ulasan) {
@@ -37,12 +38,19 @@ const addFeedback = async (req: ValidationRequest , res: express.Response) => {
             return res.status(404).json({ message: "Article not found!" });
         }
 
+        // Perbarui image pengguna di tabel users
+        await prisma.users.update({
+            where: { id: parseInt(userId) },
+            data: { image: userImage },
+        });
+
         // Simpan feedback ke database
         const result = await prisma.feedback.create({
             data: {
                 rating,
                 ulasan,
                 username,
+                image: userImage, // Simpan image pengguna ke feedback
                 users: { connect: { id: parseInt(userId) } }, // Hubungkan dengan user melalui relasi
                 articles: { connect: { id: BigInt(id) } }, // Hubungkan dengan artikel melalui relasi
                 createdAt: new Date(),
@@ -56,6 +64,7 @@ const addFeedback = async (req: ValidationRequest , res: express.Response) => {
                 rating: result.rating,
                 ulasan: result.ulasan,
                 username: result.username,
+                image: result.image,
                 createdAt: result.createdAt,
             },
         });

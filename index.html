@@ -240,7 +240,7 @@
         }
 
         // Show Popup and Load Feedback
-        async function showPopup(articleId) {
+                async function showPopup(articleId) {
             try {
                 const authToken = localStorage.getItem("authToken");
                 let currentUsername = null;
@@ -286,7 +286,7 @@
                         `;
 
                         // Tampilkan tombol delete jika username cocok
-                        if (currentUsername === feedback.username) {
+                        if (feedback.username === currentUsername ) {
                             const deleteButton = document.createElement("button");
                             deleteButton.innerText = "Delete";
                             deleteButton.onclick = async () => {
@@ -303,6 +303,38 @@
                 } else {
                     feedbackContainer.innerHTML = "<p>No feedback available for this article.</p>";
                 }
+
+                document.getElementById("submit-feedback").onclick = async () => {
+                    const rating = document.getElementById("rating").value;
+                    const comment = document.getElementById("feedback-comment").value;
+                    const authToken = localStorage.getItem("authToken");
+                
+                    if (!rating || !comment) {
+                        alert("Please provide a rating and comment.");
+                        return;
+                    }
+                
+                    try {
+                        const response = await fetch(`${apiBaseUrl}/articles/${articleId}/feedback`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${authToken}`,
+                            },
+                            body: JSON.stringify({ rating: parseInt(rating), ulasan: comment }),
+                        });
+                
+                        const result = await response.json();
+                        if (response.ok) {
+                            alert("Feedback submitted successfully!");
+                            hidePopup();
+                        } else {
+                            alert(result.message || "Failed to submit feedback.");
+                        }
+                    } catch (error) {
+                        alert(`Error submitting feedback: ${error.message}`);
+                    }
+                };
             } catch (error) {
                 alert(`Error: ${error.message}`);
             }
@@ -341,6 +373,7 @@
             overlay.style.display = "none";
         }
 
+        
         // Load articles on page load
         window.onload = loadArticles;
     </script>

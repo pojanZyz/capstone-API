@@ -40,6 +40,7 @@ model feedback {
   userid    Int
   articleid BigInt
   username  String?
+  image     String?
   articles  articles  @relation(fields: [articleid], references: [id], onDelete: Cascade)
   users     users     @relation(fields: [userid], references: [id], onDelete: Cascade)
 }
