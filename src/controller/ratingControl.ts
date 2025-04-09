@@ -21,6 +21,11 @@ const addFeedback = async (req: ValidationRequest , res: express.Response) => {
         const userId = req.userData.id; // ID user dari token
         const username = req.userData.username; // Username dari token
 
+        const feedbacks = await prisma.feedback.findMany({
+            where: { articleid: BigInt(id) },
+            include: { users: true }, // Sertakan data pengguna
+        });
+
         // Validasi input
         if (!rating || !ulasan) {
             return res.status(400).json({ message: "Rating and review are required!" });
@@ -42,6 +47,7 @@ const addFeedback = async (req: ValidationRequest , res: express.Response) => {
             data: {
                 rating,
                 ulasan,
+                username: feedbacks.users?.username || "Anonymous",
                 users: { connect: { id: parseInt(userId) } }, // Hubungkan dengan user melalui relasi
                 articles: { connect: { id: BigInt(id) } }, // Hubungkan dengan artikel melalui relasi
                 createdAt: new Date(),
@@ -52,7 +58,6 @@ const addFeedback = async (req: ValidationRequest , res: express.Response) => {
             message: "Feedback added successfully!",
             data: {
                 id: result.id.toString(),
-                username: result.username,
                 rating: result.rating,
                 ulasan: result.ulasan,
                 createdAt: result.createdAt,
