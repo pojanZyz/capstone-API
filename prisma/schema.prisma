@@ -8,15 +8,16 @@ datasource db {
 }
 
 model users {
-  id        Int        @id @default(autoincrement()) @map("id")
-  username  String     @db.VarChar(50)
-  password  String     @db.VarChar(255)
-  email     String     @unique @db.VarChar(255)
-  role      String     @default("user") @db.VarChar(5)
-  createdat DateTime   @default(now()) @db.Timestamp(6)
-  updatedat DateTime   @default(now()) @db.Timestamp(6)
-  image     String?
-  feedbacks feedback[]
+  id                                Int        @id @default(autoincrement()) @map("id")
+  username                          String     @unique @db.VarChar(50)
+  password                          String     @db.VarChar(255)
+  email                             String     @unique @db.VarChar(255)
+  role                              String     @default("user") @db.VarChar(5)
+  createdat                         DateTime   @default(now()) @db.Timestamp(6)
+  updatedat                         DateTime   @default(now()) @db.Timestamp(6)
+  image                             String?
+  feedbacks                         feedback[]
+  feedback_feedback_usernameTousers feedback[] @relation("feedback_usernameTousers")
 }
 
 model articles {
@@ -33,14 +34,16 @@ model articles {
 }
 
 model feedback {
-  id        BigInt    @id @default(autoincrement())
-  rating    Int
-  ulasan    String
-  createdAt DateTime? @default(now()) @db.Timestamp(6)
-  userid    Int
-  articleid BigInt
-  users     users?    @relation(fields: [userid], references: [id], onDelete: Cascade)
-  articles  articles? @relation(fields: [articleid], references: [id], onDelete: Cascade)
+  id                             BigInt    @id @default(autoincrement())
+  rating                         Int
+  ulasan                         String
+  createdAt                      DateTime? @default(now()) @db.Timestamp(6)
+  userid                         Int
+  articleid                      BigInt
+  username                       String?   @db.VarChar
+  articles                       articles  @relation(fields: [articleid], references: [id], onDelete: Cascade)
+  users                          users     @relation(fields: [userid], references: [id], onDelete: Cascade)
+  users_feedback_usernameTousers users?    @relation("feedback_usernameTousers", fields: [username], references: [username], onDelete: NoAction)
 }
 
 enum Category {

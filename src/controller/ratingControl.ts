@@ -2,7 +2,7 @@ import { User } from '@supabase/supabase-js';
 import express from 'express';
 const prisma = require('../config/prisma');
 
-interface UserData{
+interface UserData {
     id: string;
     username: string;
     role: string;
@@ -99,61 +99,6 @@ const getFeedbackByArticle = async (req: express.Request, res: express.Response)
     }
 };
 
-// Update Feedback
-const updateFeedback = async (req: ValidationRequest, res: express.Response) => {
-    try {
-        const { id } = req.params; // ID feedback
-        const { rating, ulasan } = req.body; // Data baru untuk feedback
-        const userId = req.userData.id; // ID user dari token
-        const userRole = req.userData.role; // Role user dari token
-
-        // Validasi input
-        if (!rating || !ulasan) {
-            return res.status(400).json({ message: "Rating and review are required!" });
-        }
-
-        // Validasi rating (1-5)
-        if (![1, 2, 3, 4, 5].includes(rating)) {
-            return res.status(400).json({ message: "Rating must be between 1 and 5!" });
-        }
-
-        // Ambil feedback berdasarkan ID
-        const feedback = await prisma.feedback.findUnique({
-            where: { id: BigInt(id) },
-        });
-
-        if (!feedback) {
-            return res.status(404).json({ message: "Feedback not found!" });
-        }
-
-        // Update feedback
-        const updatedFeedback = await prisma.feedback.update({
-            where: { id: BigInt(id) },
-            data: { rating, ulasan },
-        });
-
-        // Update Feedback
-        if (req.userData.role !== "admin" && feedback.userid !== parseInt(req.userData.id)) {
-            return res.status(403).json({ message: "You are not authorized to update this feedback!" });
-        }
-        
-        res.json({
-            message: "Feedback updated successfully!",
-            data: {
-                id: updatedFeedback.id.toString(),
-                rating: updatedFeedback.rating,
-                ulasan: updatedFeedback.ulasan,
-                createdAt: updatedFeedback.createdAt,
-            },
-        });
-    } catch (error) {
-        console.error("Error updating feedback:", error);
-        res.status(500).json({ message: "Internal server error", error });
-    } finally {
-        await prisma.$disconnect();
-    }
-};
-
 // Delete Feedback
 const deleteFeedback = async (req: ValidationRequest, res: express.Response) => {
     try {
@@ -185,4 +130,4 @@ const deleteFeedback = async (req: ValidationRequest, res: express.Response) => 
     }
 };
 
-module.exports = { addFeedback, getFeedbackByArticle, updateFeedback, deleteFeedback };
+module.exports = { addFeedback, getFeedbackByArticle, deleteFeedback };
