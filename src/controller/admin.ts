@@ -3,19 +3,48 @@ import express from "express";
 const dotenv = require("dotenv");
 const prisma = require("../config/prisma");
 const bcrypt = require("bcryptjs");
-                       
+const cleanFileName = require("../middleware/cleanFileName");
+const { supabase } = require("../config/supabaseClient");
 
 dotenv.config();
 
-const createNewUser = async (req : express.Request, res : express.Response) => {
+const createNewUser = async (req: express.Request, res: express.Response) => {
     try {
         const { username, password, email } = req.body;
+        let imageUrl: string | null = null;
+
+        // Cek apakah ada file yang diunggah
+        if (req.file) {
+            console.log('File uploaded:', req.file.originalname);
+
+            // Bersihkan nama file
+            const originalName = req.file.originalname;
+            const cleanedName = cleanFileName(originalName);
+            const filePath = `users/${Date.now()}-${cleanedName}`;
+
+            // Unggah file ke bucket Supabase
+            const { data, error } = await supabase.storage
+                .from('uploads') // Nama bucket
+                .upload(filePath, req.file.buffer, {
+                    contentType: req.file.mimetype,
+                });
+
+            if (error) {
+                throw new Error(`Failed to upload image: ${error.message}`);
+            }
+
+            // Simpan URL publik gambar
+            imageUrl = `https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/uploads/${filePath}`;
+        }
+
         const hashedPass = await bcrypt.hash(password, 10);
-        const result = await prisma.users.create({ data: { username, password : hashedPass, email, role: "user" } });
+        const result = await prisma.users.create({
+            data: { username, password: hashedPass, email, role: "user", image: imageUrl },
+        });
         res.json({ message: "CREATE USER SUCCESS", data: result });
     } catch (error) {
         res.json({ message: "CREATE USER UNSUCCESS", error });
-    }finally{
+    } finally {
         await prisma.$disconnect();
     }
 };
@@ -45,25 +74,51 @@ const getUserById = async (req: express.Request, res : express.Response)=>{
     }
 }
 
-const updateUser =  async (req : express.Request, res : express.Response) => {
+const updateUser = async (req: express.Request, res: express.Response) => {
     const { id } = req.params;
     const { username, password, email } = req.body;
+    let imageUrl: string | null = null;
 
     try {
-        const updateData:any = {};
+        const updateData: any = {};
 
         if (username) updateData.username = username;
         if (password) updateData.password = await bcrypt.hash(password, 10);
         if (email) updateData.email = email;
 
+        // Cek apakah ada file yang diunggah
+        if (req.file) {
+            console.log('File uploaded:', req.file.originalname);
+
+            // Bersihkan nama file
+            const originalName = req.file.originalname;
+            const cleanedName = cleanFileName(originalName);
+            const filePath = `users/${Date.now()}-${cleanedName}`;
+
+            // Unggah file ke bucket Supabase
+            const { data, error } = await supabase.storage
+                .from('uploads') // Nama bucket
+                .upload(filePath, req.file.buffer, {
+                    contentType: req.file.mimetype,
+                });
+
+            if (error) {
+                throw new Error(`Failed to upload image: ${error.message}`);
+            }
+
+            // Simpan URL publik gambar
+            imageUrl = `https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/uploads/${filePath}`;
+            updateData.image = imageUrl; // Tambahkan URL gambar ke data yang akan diperbarui
+        }
+
         const result = await prisma.users.update({
             where: { id: parseInt(id) },
-            data: updateData
+            data: updateData,
         });
         res.json({ message: "UPDATE USER SUCCESS", data: result });
     } catch (error) {
         res.json({ message: "UPDATE USER UNSUCCESS", error });
-    }finally{
+    } finally {
         await prisma.$disconnect();
     }
 };
