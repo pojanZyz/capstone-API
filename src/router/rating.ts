@@ -9,7 +9,6 @@ const router = express.Router();
 // Endpoint untuk memberikan feedback pada artikel
 router.post('/articles/:id/feedback', accessValidation, addFeedback);
 router.get('/articles/:id/feedback', getFeedbackByArticle);
-router.patch('/articles/:id/feedback', accessValidation, updateFeedback);
 router.delete('/articles/:id/feedback', accessValidation, deleteFeedback);
 module.exports = router;
 
