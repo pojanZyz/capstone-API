@@ -47,7 +47,7 @@ const addFeedback = async (req: ValidationRequest , res: express.Response) => {
             data: {
                 rating,
                 ulasan,
-                username: feedbacks.users?.username || "Anonymous",
+                usernames: feedbacks.users?.username || "Anonymous",
                 users: { connect: { id: parseInt(userId) } }, // Hubungkan dengan user melalui relasi
                 articles: { connect: { id: BigInt(id) } }, // Hubungkan dengan artikel melalui relasi
                 createdAt: new Date(),
@@ -88,7 +88,7 @@ const getFeedbackByArticle = async (req: express.Request, res: express.Response)
         // Format respons
         const formattedFeedbacks = feedbacks.map((feedback: typeof prisma.feedback) => ({
             id: feedback.id.toString(),
-            username: feedback.users?.usernames || "Anonymous",
+            usernames: feedback.users?.usernames || "Anonymous",
             rating: feedback.rating,
             ulasan: feedback.ulasan,
             createdAt: feedback.createdAt,
