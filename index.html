@@ -17,6 +17,22 @@
             color: white;
             padding: 20px;
             text-align: center;
+            position: relative;
+        }
+        header button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        header button:hover {
+            background-color: #c0392b;
         }
         main {
             padding: 20px;
@@ -138,6 +154,7 @@
 <body>
     <header>
         <h1>Capstone API Frontend</h1>
+        <button id="logout-button" style="display: none;">Logout</button>
     </header>
     <main>
         <!-- Login Form -->
@@ -211,6 +228,7 @@
                 if (response.ok) {
                     localStorage.setItem("authToken", result.token);
                     alert("Login successful!");
+                    document.getElementById("logout-button").style.display = "block";
                     loadArticles();
                 } else {
                     alert(result.message);
@@ -235,6 +253,33 @@
                 });
                 const result = await response.json();
                 alert(result.message);
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        });
+
+        // Logout
+        document.getElementById("logout-button").addEventListener("click", async () => {
+            const authToken = localStorage.getItem("authToken");
+            if (!authToken) {
+                alert("You are not logged in.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/users/logout`, {
+                    method: "POST",
+                    headers: { Authorization: `Bearer ${authToken}` },
+                });
+
+                if (response.ok) {
+                    localStorage.removeItem("authToken");
+                    alert("Logout successful!");
+                    document.getElementById("logout-button").style.display = "none";
+                } else {
+                    const result = await response.json();
+                    alert(result.message || "Failed to logout.");
+                }
             } catch (error) {
                 alert(`Error: ${error.message}`);
             }
@@ -429,9 +474,14 @@
             overlay.style.display = "none";
         }
 
-        
-        // Load articles on page load
-        window.onload = loadArticles;
+        // Tampilkan tombol logout jika sudah login
+        window.onload = () => {
+            const authToken = localStorage.getItem("authToken");
+            if (authToken) {
+                document.getElementById("logout-button").style.display = "block";
+            }
+            loadArticles();
+        };
     </script>
 </body>
 </html>
