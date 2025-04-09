@@ -47,7 +47,7 @@ const addFeedback = async (req: ValidationRequest , res: express.Response) => {
             data: {
                 rating,
                 ulasan,
-                usernames: feedbacks.users?.username || "Anonymous",
+                usernames: feedbacks.users?.usernames || "Anonymous",
                 users: { connect: { id: parseInt(userId) } }, // Hubungkan dengan user melalui relasi
                 articles: { connect: { id: BigInt(id) } }, // Hubungkan dengan artikel melalui relasi
                 createdAt: new Date(),
