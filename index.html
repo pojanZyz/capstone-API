@@ -98,8 +98,40 @@
             margin-top: 20px;
         }
         .feedback-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
             border-bottom: 1px solid #ddd;
-            padding: 10px 0;
+            padding: 15px 0;
+        }
+        .feedback-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #4CAF50;
+        }
+        .feedback-item-content {
+            flex: 1;
+        }
+        .feedback-item-content p {
+            margin: 5px 0;
+        }
+        .feedback-item-content small {
+            color: #888;
+            font-size: 12px;
+        }
+        .feedback-item button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .feedback-item button:hover {
+            background-color: #c0392b;
         }
     </style>
 </head>
@@ -240,7 +272,7 @@
         }
 
         // Show Popup and Load Feedback
-                async function showPopup(articleId) {
+        async function showPopup(articleId) {
             try {
                 const authToken = localStorage.getItem("authToken");
                 let currentUsername = null;
@@ -281,12 +313,16 @@
                         const feedbackItem = document.createElement("div");
                         feedbackItem.className = "feedback-item";
                         feedbackItem.innerHTML = `
-                            <p><strong>${feedback.username}</strong> (${feedback.rating}/5): ${feedback.ulasan}</p>
-                            <small>${new Date(feedback.createdAt).toLocaleString()}</small>
+                            <img src="${feedback.image || 'default-profile.png'}" alt="Profile Photo" />
+                            <div class="feedback-item-content">
+                                <p><strong>${feedback.username}</strong> (${feedback.rating}/5):</p>
+                                <p>${feedback.ulasan}</p>
+                                <small>${new Date(feedback.createdAt).toLocaleString()}</small>
+                            </div>
                         `;
 
                         // Tampilkan tombol delete jika username cocok
-                        if (feedback.username === currentUsername ) {
+                        if (feedback.username === currentUsername) {
                             const deleteButton = document.createElement("button");
                             deleteButton.innerText = "Delete";
                             deleteButton.onclick = async () => {
@@ -295,7 +331,7 @@
                                     showPopup(articleId); // Refresh feedback
                                 }
                             };
-                            feedbackItem.appendChild(deleteButton);
+                            feedbackItem.querySelector(".feedback-item-content").appendChild(deleteButton);
                         }
 
                         feedbackContainer.appendChild(feedbackItem);
@@ -379,3 +415,4 @@
     </script>
 </body>
 </html>
+``` 

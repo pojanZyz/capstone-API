@@ -91,9 +91,10 @@ const getFeedbackByArticle = async (req: express.Request, res: express.Response)
         }
 
         // Format respons
-        const formattedFeedbacks = feedbacks.map((feedback: typeof prisma.feedback) => ({
+        const formattedFeedbacks = feedbacks.map((feedback : typeof prisma.feedback) => ({
             id: feedback.id.toString(),
             username: feedback.users?.username || "Anonymous",
+            image: feedback.users?.image || null, // Tambahkan gambar profil
             rating: feedback.rating,
             ulasan: feedback.ulasan,
             createdAt: feedback.createdAt,
@@ -137,7 +138,7 @@ const deleteFeedback = async (req: ValidationRequest, res: express.Response) => 
         res.status(500).json({ message: "Internal server error", error });
     } finally {
         await prisma.$disconnect();
-    }
 };
+}
 
 module.exports = { addFeedback, getFeedbackByArticle, deleteFeedback };
