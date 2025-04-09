@@ -276,18 +276,38 @@
             try {
                 const authToken = localStorage.getItem("authToken");
                 let currentUsername = null;
+                let currentUserRole = null;
 
-                // Ambil username pengguna yang sedang login
+                // Ambil username dan role pengguna yang sedang login
                 if (authToken) {
+                    console.log("Auth Token:", authToken); // Debug token
                     const userResponse = await fetch(`${apiBaseUrl}/users/me`, {
                         method: "GET",
                         headers: { Authorization: `Bearer ${authToken}` },
                     });
+
                     if (userResponse.ok) {
                         const userResult = await userResponse.json();
-                        currentUsername = userResult.username;
+                        console.log("User Response:", userResult); // Debug respons API
+
+                        // Periksa apakah properti data ada
+                        if (userResult.data) {
+                            currentUsername = userResult.data.username || null;
+                            currentUserRole = userResult.data.role || null;
+                        } else {
+                            // Jika tidak ada properti data, akses langsung
+                            currentUsername = userResult.username || null;
+                            currentUserRole = userResult.role || null;
+                        }
+                    } else {
+                        console.error("Failed to fetch user data:", await userResponse.text());
                     }
+                } else {
+                    console.warn("No auth token found.");
                 }
+
+                console.log("Current Username:", currentUsername);
+                console.log("Current User Role:", currentUserRole);
 
                 const articleResponse = await fetch(`${apiBaseUrl}/articles/${articleId}`, { method: "GET" });
                 const article = await articleResponse.json();
@@ -321,8 +341,8 @@
                             </div>
                         `;
 
-                        // Tampilkan tombol delete jika username cocok
-                        if (feedback.username === currentUsername) {
+                        // Tampilkan tombol delete jika username cocok atau user adalah admin
+                        if (feedback.username === currentUsername || currentUserRole === "admin") {
                             const deleteButton = document.createElement("button");
                             deleteButton.innerText = "Delete";
                             deleteButton.onclick = async () => {
@@ -344,12 +364,12 @@
                     const rating = document.getElementById("rating").value;
                     const comment = document.getElementById("feedback-comment").value;
                     const authToken = localStorage.getItem("authToken");
-                
+
                     if (!rating || !comment) {
                         alert("Please provide a rating and comment.");
                         return;
                     }
-                
+
                     try {
                         const response = await fetch(`${apiBaseUrl}/articles/${articleId}/feedback`, {
                             method: "POST",
@@ -359,7 +379,7 @@
                             },
                             body: JSON.stringify({ rating: parseInt(rating), ulasan: comment }),
                         });
-                
+
                         const result = await response.json();
                         if (response.ok) {
                             alert("Feedback submitted successfully!");
@@ -372,7 +392,7 @@
                     }
                 };
             } catch (error) {
-                alert(`Error: ${error.message}`);
+                console.error("Error:", error);
             }
         }
 
@@ -415,4 +435,3 @@
     </script>
 </body>
 </html>
-``` 
