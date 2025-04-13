@@ -167,10 +167,11 @@
 
         <!-- Register Form -->
         <h2>Register</h2>
-        <form id="register-form">
+        <form id="register-form" enctype="multipart/form-data">
             <input type="text" id="register-username" placeholder="Username" required />
             <input type="email" id="register-email" placeholder="Email" required />
             <input type="password" id="register-password" placeholder="Password" required />
+            <input type="file" id="register-image" accept="image/*" />
             <button type="submit">Register</button>
         </form>
 
@@ -244,12 +245,20 @@
             const username = document.getElementById("register-username").value;
             const email = document.getElementById("register-email").value;
             const password = document.getElementById("register-password").value;
+            const image = document.getElementById("register-image").files[0];
+
+            const formData = new FormData();
+            formData.append("username", username);
+            formData.append("email", email);
+            formData.append("password", password);
+            if (image) {
+                formData.append("image", image);
+            }
 
             try {
                 const response = await fetch(`${apiBaseUrl}/users/register`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, email, password }),
+                    body: formData,
                 });
                 const result = await response.json();
                 alert(result.message);
@@ -302,7 +311,7 @@
                             <img src="${article.image}" alt="Article Image" />
                             <div class="card-content">
                                 <h3>${article.title}</h3>
-                                <p>${article.shortDesc}</p>
+                                <p>${article.shortdesc}</p>
                                 <button onclick="showPopup(${article.id})">Selengkapnya</button>
                             </div>
                         `;
@@ -360,7 +369,7 @@
                 document.getElementById("popup-title").innerText = article.data.title;
                 document.getElementById("popup-image").src = article.data.image;
                 document.getElementById("popup-description").innerText = article.data.longDesc;
-                document.getElementById("popup-location").innerText = article.data.location;
+                document.getElementById("popup-location").innerHTML = article.data.location;
 
                 const popup = document.getElementById("article-popup");
                 const overlay = document.getElementById("popup-overlay");
@@ -485,3 +494,4 @@
     </script>
 </body>
 </html>
+``` 
