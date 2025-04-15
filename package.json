@@ -286,9 +286,11 @@
   "devDependencies": {
     "@types/express": "^5.0.1"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+"scripts": {
+  "build": "tsc",
+  "start": "node dist/index.js",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
   "author": "",
   "license": "ISC",
   "description": ""
