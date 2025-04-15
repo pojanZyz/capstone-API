@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { rekomendasiFromInput } from '../controller/mlControl'; // Use ES module import for better type inference
+const { rekomendasiFromInput } = require('../controller/mlControl'); // Use ES module import for better type inference
 
 const router = express.Router();
 
