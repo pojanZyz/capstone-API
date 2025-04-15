@@ -1,16 +1,26 @@
-import express from 'express';
-const { predictFromInput } = require('../controller/mlControl');
+import express, { Request, Response } from 'express';
+import { rekomendasiFromInput } from '../controller/mlControl'; // Use ES module import for better type inference
 
 const router = express.Router();
 
-router.post('/predict', async (req: express.Request, res: express.Response) => {
+router.post('/rekomendasi', async (req: Request, res: Response): Promise<void> => {
   try {
-    const input = req.body.input; // contoh: [0.2, 0.8, 1.0]
-    const result = await predictFromInput(input);
-    res.json({ prediction: result });
+    const input: number[] = req.body.input; // contoh: [0.2, 0.8, 1.0]
+    if (!Array.isArray(input) || input.some((item) => typeof item !== 'number' || isNaN(item))) {
+      res.status(400).json({ error: 'Input harus berupa array angka' });
+      return;
+    }
+
+    const result: number[] = await rekomendasiFromInput(input);
+
+    // Logika rekomendasi: Ambil indeks dengan nilai tertinggi
+    const rekomendasiIndex = result.indexOf(Math.max(...result));
+    const rekomendasi = `Rekomendasi terbaik adalah item ke-${rekomendasiIndex + 1}`;
+
+    res.json({ prediction: result, rekomendasi });
   } catch (err) {
     res.status(500).json({ error: 'Prediction failed', detail: err });
   }
 });
 
-module.exports = router;
+export default router;

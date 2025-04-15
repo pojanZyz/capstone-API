@@ -5,7 +5,7 @@ import * as tf from '@tensorflow/tfjs-node';
 let model: tf.LayersModel | null = null;
 // const modelUrl = 'https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/model/model_wisata.json';
 
-const loadModel = async (): Promise<void> => {
+export const loadModel = async (): Promise<void> => {
   try {
     if (!model) {
       model = await tf.loadLayersModel('./src/model/model_wisata.json');
@@ -16,7 +16,7 @@ const loadModel = async (): Promise<void> => {
   }
 };
 
-const predictFromInput = async (input: number[]): Promise<number[]> => {
+export const rekomendasiFromInput = async (input: number[]): Promise<number[]> => {
   try {
     await loadModel();
 
@@ -32,7 +32,3 @@ const predictFromInput = async (input: number[]): Promise<number[]> => {
   }
 };
 
-export default {
-  predictFromInput,
-  loadModel
-};
