@@ -14,7 +14,7 @@ const loadModel = async (): Promise<void> => {
     }
   } catch (error) {
     console.error('Error loading model:', error);
-    throw new Error('Failed to load model');
+    throw new Error('Failed to load model. Ensure the model file is valid and properly formatted.');
   }
 };
 
