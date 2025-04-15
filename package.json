@@ -80,7 +80,6 @@
     "es-object-atoms": "^1.1.1",
     "esbuild": "^0.25.1",
     "esbuild-register": "^3.6.0",
-    "esbuild-windows-64": "^0.14.47",
     "escape-html": "^1.0.3",
     "estree-walker": "^2.0.2",
     "etag": "^1.8.1",
