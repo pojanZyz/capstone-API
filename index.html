@@ -257,7 +257,7 @@
                             <img src="${article.image}" alt="Article Image" />
                             <div class="card-content">
                                 <h3>${article.title}</h3>
-                                <p>${article.shortDesc}</p>
+                                <p>${article.shortdesc}</p>
                                 <button onclick="showPopup(${article.id})">Selengkapnya</button>
                             </div>
                         `;
@@ -314,7 +314,7 @@
 
                 document.getElementById("popup-title").innerText = article.data.title;
                 document.getElementById("popup-image").src = article.data.image;
-                document.getElementById("popup-description").innerText = article.data.longDesc;
+                document.getElementById("popup-description").innerText = article.data.longdesc;
                 document.getElementById("popup-location").innerText = article.data.location;
 
                 const popup = document.getElementById("article-popup");
