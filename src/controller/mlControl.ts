@@ -20,7 +20,7 @@ const predictFromInput = async (input: number[]): Promise<number[]> => {
   return Array.from(result);
 };
 
-module.exports = {
+export default {
   predictFromInput,
   loadModel
 };
