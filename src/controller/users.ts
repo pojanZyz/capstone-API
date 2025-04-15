@@ -120,19 +120,19 @@ const login = async (req: express.Request, res: express.Response) => {
 };
 
 const logout = async (req: ValidationRequest, res: express.Response) => {
-    try{
-    const token = req.header("Authorization")?.split(" ")[1];
+    try {
+        const token = req.header("Authorization")?.split(" ")[1];
 
-    if (token) {
-        accessValidation.blacklistToken.add(token);
-    }
+        if (token) {
+            accessValidation.blacklistToken.add(token); // Tambahkan token ke blacklist
+        }
 
-    res.json({ message: "Logout berhasil" });
-    }catch (error) {
-        console.error("logout error:", error);
+        res.json({ message: "Logout berhasil" });
+    } catch (error) {
+        console.error("Logout error:", error);
         res.status(500).json({ message: "INTERNAL SERVER ERROR" });
     } finally {
-        await prisma.$disconnect(); // Tutup koneksi Prisma setelah query selesai
+        await prisma.$disconnect();
     }
 };
 

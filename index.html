@@ -17,6 +17,22 @@
             color: white;
             padding: 20px;
             text-align: center;
+            position: relative;
+        }
+        header button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        header button:hover {
+            background-color: #c0392b;
         }
         main {
             padding: 20px;
@@ -138,6 +154,7 @@
 <body>
     <header>
         <h1>Capstone API Frontend</h1>
+        <button id="logout-button" style="display: none;">Logout</button>
     </header>
     <main>
         <!-- Login Form -->
@@ -150,10 +167,11 @@
 
         <!-- Register Form -->
         <h2>Register</h2>
-        <form id="register-form">
+        <form id="register-form" enctype="multipart/form-data">
             <input type="text" id="register-username" placeholder="Username" required />
             <input type="email" id="register-email" placeholder="Email" required />
             <input type="password" id="register-password" placeholder="Password" required />
+            <input type="file" id="register-image" accept="image/*" />
             <button type="submit">Register</button>
         </form>
 
@@ -211,6 +229,7 @@
                 if (response.ok) {
                     localStorage.setItem("authToken", result.token);
                     alert("Login successful!");
+                    document.getElementById("logout-button").style.display = "block";
                     loadArticles();
                 } else {
                     alert(result.message);
@@ -226,15 +245,50 @@
             const username = document.getElementById("register-username").value;
             const email = document.getElementById("register-email").value;
             const password = document.getElementById("register-password").value;
+            const image = document.getElementById("register-image").files[0];
+
+            const formData = new FormData();
+            formData.append("username", username);
+            formData.append("email", email);
+            formData.append("password", password);
+            if (image) {
+                formData.append("image", image);
+            }
 
             try {
                 const response = await fetch(`${apiBaseUrl}/users/register`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, email, password }),
+                    body: formData,
                 });
                 const result = await response.json();
                 alert(result.message);
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        });
+
+        // Logout
+        document.getElementById("logout-button").addEventListener("click", async () => {
+            const authToken = localStorage.getItem("authToken");
+            if (!authToken) {
+                alert("You are not logged in.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/users/logout`, {
+                    method: "POST",
+                    headers: { Authorization: `Bearer ${authToken}` },
+                });
+
+                if (response.ok) {
+                    localStorage.removeItem("authToken");
+                    alert("Logout successful!");
+                    document.getElementById("logout-button").style.display = "none";
+                } else {
+                    const result = await response.json();
+                    alert(result.message || "Failed to logout.");
+                }
             } catch (error) {
                 alert(`Error: ${error.message}`);
             }
@@ -314,8 +368,8 @@
 
                 document.getElementById("popup-title").innerText = article.data.title;
                 document.getElementById("popup-image").src = article.data.image;
-                document.getElementById("popup-description").innerText = article.data.longdesc;
-                document.getElementById("popup-location").innerText = article.data.location;
+                document.getElementById("popup-description").innerText = article.data.longDesc;
+                document.getElementById("popup-location").innerHTML = article.data.location;
 
                 const popup = document.getElementById("article-popup");
                 const overlay = document.getElementById("popup-overlay");
@@ -429,9 +483,15 @@
             overlay.style.display = "none";
         }
 
-        
-        // Load articles on page load
-        window.onload = loadArticles;
+        // Tampilkan tombol logout jika sudah login
+        window.onload = () => {
+            const authToken = localStorage.getItem("authToken");
+            if (authToken) {
+                document.getElementById("logout-button").style.display = "block";
+            }
+            loadArticles();
+        };
     </script>
 </body>
 </html>
+``` 
