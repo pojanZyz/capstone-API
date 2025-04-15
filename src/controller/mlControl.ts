@@ -1,14 +1,16 @@
 // src/controller/mlControl.ts
+const path = require('path');
 import * as tf from '@tensorflow/tfjs-node';
 
 // kasih tipe tf.LayersModel | null
 let model: tf.LayersModel | null = null;
-// const modelUrl = 'https://ggwfplbytoyuzuevhcfo.supabase.co/storage/v1/object/public/model/model_wisata.json';
+// filepath: d:\Dicoding-indonesia\project-capstone\capstone-API-rajif (1)\capstone-API-rajif\src\controller\mlControl.ts
 
 const loadModel = async (): Promise<void> => {
   try {
     if (!model) {
-      model = await tf.loadLayersModel('./src/model/model_wisata.json');
+      const modelPath = `file://${path.resolve(__dirname, '../model/model_wisata.json')}`;
+      model = await tf.loadLayersModel(modelPath);
     }
   } catch (error) {
     console.error('Error loading model:', error);
