@@ -9,7 +9,7 @@ let model: tf.LayersModel | null = null;
 const loadModel = async (): Promise<void> => {
   try {
     if (!model) {
-      const modelPath = `file://${path.resolve(__dirname, '../model/model_wisata.json')}`;
+      const modelPath = `file://${path.resolve(__dirname, '../model/model_wisata.json')}`; // Ensure correct path
       model = await tf.loadLayersModel(modelPath);
     }
   } catch (error) {

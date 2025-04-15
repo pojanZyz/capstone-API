@@ -287,6 +287,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "postbuild": "mkdir -p dist/model && cp src/model/model_wisata.json dist/model/",
     "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
