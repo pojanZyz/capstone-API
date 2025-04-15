@@ -33,5 +33,6 @@ const rekomendasiFromInput = async (input: number[]): Promise<number[]> => {
 };
 
 module.exports = {
-  rekomendasiFromInput
+  rekomendasiFromInput,
+  loadModel
 };
