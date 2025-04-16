@@ -22,10 +22,10 @@ const rekomendasiFromInput = async (req: express.Request, res: express.Response)
     // Filter data berdasarkan substring pada semua atribut (nama, kategori, lokasi, deskripsi)
     const hasilPencarian = model.data.filter(item => {
       return (
-        item.nama.toLowerCase().includes(lowerCaseQuery) ||
-        item.kategori.toLowerCase().includes(lowerCaseQuery) ||
-        item.lokasi.toLowerCase().includes(lowerCaseQuery) ||
-        item.deskripsi.toLowerCase().includes(lowerCaseQuery)
+        (item.nama?.toLowerCase().includes(lowerCaseQuery) || false) ||
+        (item.kategori?.toLowerCase().includes(lowerCaseQuery) || false) ||
+        (item.lokasi?.toLowerCase().includes(lowerCaseQuery) || false) ||
+        (item.deskripsi?.toLowerCase().includes(lowerCaseQuery) || false)
       );
     });
 
