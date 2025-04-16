@@ -11,7 +11,7 @@
   "data": [
     {
       "id": 1,
-      "nama": "Danau Toba",
+      "title": "Danau Toba",
       "kategori": "Alam",
       "lokasi": "Sumatera Utara",
       "deskripsi": "Danau vulkanik terbesar di Indonesia dengan budaya Batak yang khas",
@@ -19,7 +19,7 @@
     },
     {
       "id": 2,
-      "nama": "Borobudur",
+      "title": "Borobudur",
       "kategori": "Budaya",
       "lokasi": "Jawa Tengah",
       "deskripsi": "Candi Buddha terbesar di dunia dan situs warisan UNESCO",
@@ -27,7 +27,7 @@
     },
     {
       "id": 3,
-      "nama": "Raja Ampat",
+      "title": "Raja Ampat",
       "kategori": "Alam",
       "lokasi": "Papua Barat",
       "deskripsi": "Kepulauan dengan keanekaragaman laut yang luar biasa",
@@ -35,7 +35,7 @@
     },
     {
       "id": 4,
-      "nama": "Bromo",
+      "title": "Bromo",
       "kategori": "Alam",
       "lokasi": "Jawa Timur",
       "deskripsi": "Gunung berapi aktif dengan pemandangan matahari terbit yang indah",
@@ -43,7 +43,7 @@
     },
     {
       "id": 5,
-      "nama": "Ubud",
+      "title": "Ubud",
       "kategori": "Budaya",
       "lokasi": "Bali",
       "deskripsi": "Pusat seni dan budaya Bali dengan pemandangan sawah yang hijau",
@@ -51,7 +51,7 @@
     },
     {
       "id": 6,
-      "nama": "Tanah Lot",
+      "title": "Tanah Lot",
       "kategori": "Religi",
       "lokasi": "Bali",
       "deskripsi": "Pura ikonik di atas batu karang di tengah laut",
@@ -59,7 +59,7 @@
     },
     {
       "id": 7,
-      "nama": "Kawah Ijen",
+      "title": "Kawah Ijen",
       "kategori": "Alam",
       "lokasi": "Jawa Timur",
       "deskripsi": "Gunung dengan api biru dan danau asam tertinggi di dunia",
@@ -67,7 +67,7 @@
     },
     {
       "id": 8,
-      "nama": "Toba Samosir",
+      "title": "Toba Samosir",
       "kategori": "Budaya",
       "lokasi": "Sumatera Utara",
       "deskripsi": "Wilayah dengan tradisi Batak yang kuat di sekitar Danau Toba",
@@ -75,7 +75,7 @@
     },
     {
       "id": 9,
-      "nama": "Derawan",
+      "title": "Derawan",
       "kategori": "Alam",
       "lokasi": "Kalimantan Timur",
       "deskripsi": "Pulau eksotis dengan penyu, ubur-ubur, dan pantai pasir putih",
@@ -83,7 +83,7 @@
     },
     {
       "id": 10,
-      "nama": "Leang-Leang",
+      "title": "Leang-Leang",
       "kategori": "Sejarah",
       "lokasi": "Sulawesi Selatan",
       "deskripsi": "Goa purba dengan lukisan tangan manusia ribuan tahun lalu",
@@ -91,7 +91,7 @@
     },
     {
       "id": 11,
-      "nama": "Lombok",
+      "title": "Lombok",
       "kategori": "Alam",
       "lokasi": "Nusa Tenggara Barat",
       "deskripsi": "Pantai dan gunung Rinjani dengan panorama spektakuler",
@@ -99,7 +99,7 @@
     },
     {
       "id": 12,
-      "nama": "Kotagede",
+      "title": "Kotagede",
       "kategori": "Sejarah",
       "lokasi": "Yogyakarta",
       "deskripsi": "Kawasan kuno peninggalan Mataram Islam dengan arsitektur klasik",
@@ -107,7 +107,7 @@
     },
     {
       "id": 13,
-      "nama": "Bukittinggi",
+      "title": "Bukittinggi",
       "kategori": "Budaya",
       "lokasi": "Sumatera Barat",
       "deskripsi": "Kota budaya Minangkabau dengan Jam Gadang dan Ngarai Sianok",
@@ -115,7 +115,7 @@
     },
     {
       "id": 14,
-      "nama": "Pulau Komodo",
+      "title": "Pulau Komodo",
       "kategori": "Alam",
       "lokasi": "Nusa Tenggara Timur",
       "deskripsi": "Habitat asli komodo dengan savana dan laut jernih",
@@ -123,7 +123,7 @@
     },
     {
       "id": 15,
-      "nama": "Lawang Sewu",
+      "title": "Lawang Sewu",
       "kategori": "Sejarah",
       "lokasi": "Jawa Tengah",
       "deskripsi": "Gedung bersejarah peninggalan Belanda dengan banyak pintu",
@@ -131,7 +131,7 @@
     },
     {
       "id": 16,
-      "nama": "Taman Mini",
+      "title": "Taman Mini",
       "kategori": "Sejarah",
       "lokasi": "DKI Jakarta",
       "deskripsi": "Taman tematik budaya Indonesia dari Sabang sampai Merauke",
@@ -139,7 +139,7 @@
     },
     {
       "id": 17,
-      "nama": "Puncak",
+      "title": "Puncak",
       "kategori": "Alam",
       "lokasi": "Jawa Barat",
       "deskripsi": "Daerah pegunungan dengan kebun teh dan udara sejuk",
@@ -147,7 +147,7 @@
     },
     {
       "id": 18,
-      "nama": "Ancol",
+      "title": "Ancol",
       "kategori": "Rekreasi",
       "lokasi": "DKI Jakarta",
       "deskripsi": "Taman hiburan dan pantai buatan di ibu kota",
@@ -155,7 +155,7 @@
     },
     {
       "id": 19,
-      "nama": "Karimunjawa",
+      "title": "Karimunjawa",
       "kategori": "Alam",
       "lokasi": "Jawa Tengah",
       "deskripsi": "Kepulauan tropis dengan laut biru dan ekosistem laut alami",
@@ -163,7 +163,7 @@
     },
     {
       "id": 20,
-      "nama": "Candi Prambanan",
+      "title": "Candi Prambanan",
       "kategori": "Budaya",
       "lokasi": "Yogyakarta",
       "deskripsi": "Kompleks candi Hindu terbesar di Indonesia",
