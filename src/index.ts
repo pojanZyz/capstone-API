@@ -11,7 +11,7 @@ const mlRouter = require("./router/ml");
 dotenv.config();
 const app = express();
 
-app.use(cors({origin: "http://127.0.0.1:5500/"}));
+app.use(cors());
 app.use(express.json());
 
 app.use('/users', usersRouter);
