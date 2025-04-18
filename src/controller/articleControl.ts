@@ -12,7 +12,7 @@ const createArticle = async (req: express.Request, res: express.Response) => {
         let imageUrl: string | null = null;
 
         // Validasi category
-        const validCategories = ["Wisata", "Budaya"];
+        const validCategories = ["wisata", "budaya"];
         if (!validCategories.includes(category)) {
             return res.status(400).json({
                 message: "CREATE ARTICLE UNSUCCESS",
