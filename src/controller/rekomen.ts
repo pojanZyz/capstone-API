@@ -16,16 +16,24 @@ interface ModelData {
 }
 
 // Load data dari file JSON
-const rawData = fs.readFileSync('./model_wisata.json', 'utf8');
+const rawData = fs.readFileSync('./src/model/model_wisata.json', 'utf8');
 const model: ModelData = JSON.parse(rawData);
 
-// Endpoint rekomendasi berdasarkan ID wisata
-const rekomendasi =  (req: Request, res: Response) => {
-  const wisataId = parseInt(req.params.id);
-  const index = model.data.findIndex(w => w.id === wisataId);
+// Endpoint rekomendasi berdasarkan nama wisata
+const rekomendasi = (req: Request, res: Response) => {
+  const query = req.query.q as string;
+
+  if (!query) {
+    return res.status(400).json({ error: 'Parameter query (q) diperlukan' });
+  }
+
+  // Cari indeks berdasarkan nama (case-insensitive, cocok sebagian)
+  const index = model.data.findIndex(w =>
+    w.nama.toLowerCase().includes(query.toLowerCase())
+  );
 
   if (index === -1) {
-    return res.status(404).json({ error: 'ID wisata tidak ditemukan' });
+    return res.status(404).json({ error: 'Wisata tidak ditemukan berdasarkan query tersebut' });
   }
 
   const simScores = model.cosine_sim[index];
