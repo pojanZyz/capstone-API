@@ -16,23 +16,7 @@
       "location": "Sumatera Utara",
       "image": "https://example.com/danau-toba.jpg",
       "shortdesc": "Danau terbesar di Indonesia yang terbentuk oleh letusan gunung berapi.",
-      "longdesc": "Danau Toba adalah danau vulkanik terbesar di dunia yang terletak di Sumatera Utara, Indonesia. Danau ini terbentuk dari letusan gunung berapi besar sekitar 74.000 tahun yang lalu. Sekarang, Danau Toba menjadi destinasi wisata terkenal dengan pemandangan alam yang menakjubkan.",
-      "cosine_sim": [1.0, 0.0417, 0.0322, 0.0312, 0.0728, 0.0, 0.1727, 0.5380, 0.0270, 0.0],
-      "vectorizer_vocab": {
-        "danau": 28,
-        "toba": 130,
-        "alam": 1,
-        "sumatera": 118,
-        "utara": 137,
-        "vulkanik": 138,
-        "indonesia": 46,
-        "batak": 13,
-        "khas": 60,
-        "pemandangan": 88,
-        "matahari": 76,
-        "terbit": 127,
-        "indah": 45
-      }
+      "longdesc": "Danau Toba adalah danau vulkanik terbesar di dunia yang terletak di Sumatera Utara, Indonesia. Danau ini terbentuk dari letusan gunung berapi besar sekitar 74.000 tahun yang lalu. Sekarang, Danau Toba menjadi destinasi wisata terkenal dengan pemandangan alam yang menakjubkan."
     },
     {
       "id": 2,
@@ -41,18 +25,7 @@
       "location": "Jawa Tengah",
       "image": "https://example.com/borobudur.jpg",
       "shortdesc": "Candi Buddha terbesar di dunia dan warisan budaya Indonesia.",
-      "longdesc": "Borobudur adalah candi Buddha yang terletak di Jawa Tengah, Indonesia. Dibangun pada abad ke-9, Borobudur adalah salah satu situs warisan dunia UNESCO dan menjadi salah satu destinasi budaya utama di Indonesia.",
-      "cosine_sim": [0.0417, 1.0, 0.0, 0.0478, 0.0769, 0.0602, 0.1390, 0.0367, 0.0, 0.0],
-      "vectorizer_vocab": {
-        "borobudur": 20,
-        "jawa": 50,
-        "tengah": 125,
-        "candi": 26,
-        "buddha": 24,
-        "situs": 115,
-        "warisan": 139,
-        "unesco": 136
-      }
+      "longdesc": "Borobudur adalah candi Buddha yang terletak di Jawa Tengah, Indonesia. Dibangun pada abad ke-9, Borobudur adalah salah satu situs warisan dunia UNESCO dan menjadi salah satu destinasi budaya utama di Indonesia."
     },
     {
       "id": 3,
@@ -61,18 +34,7 @@
       "location": "Papua Barat",
       "image": "https://example.com/raja-ampat.jpg",
       "shortdesc": "Keindahan alam bawah laut yang luar biasa di Raja Ampat.",
-      "longdesc": "Raja Ampat adalah gugusan pulau di Papua Barat, Indonesia, terkenal dengan keindahan alam bawah lautnya yang memukau. Menjadi salah satu tempat penyelaman terbaik di dunia, Raja Ampat menawarkan pemandangan alam yang tak tertandingi.",
-      "cosine_sim": [0.0322, 0.0, 1.0, 0.0324, 0.0, 0.0592, 0.0317, 0.0, 0.0281, 0.0],
-      "vectorizer_vocab": {
-        "raja": 98,
-        "ampat": 3,
-        "papua": 85,
-        "barat": 12,
-        "kepulauan": 59,
-        "keanekaragaman": 57,
-        "laut": 68,
-        "indonesia": 46
-      }
+      "longdesc": "Raja Ampat adalah gugusan pulau di Papua Barat, Indonesia, terkenal dengan keindahan alam bawah lautnya yang memukau. Menjadi salah satu tempat penyelaman terbaik di dunia, Raja Ampat menawarkan pemandangan alam yang tak tertandingi."
     },
     {
       "id": 4,
@@ -81,18 +43,7 @@
       "location": "Jawa Timur",
       "image": "https://example.com/gunung-bromo.jpg",
       "shortdesc": "Gunung berapi yang terkenal dengan pemandangan matahari terbitnya.",
-      "longdesc": "Gunung Bromo terletak di Jawa Timur, Indonesia, dan dikenal dengan pemandangan matahari terbit yang menakjubkan. Ini adalah salah satu gunung berapi paling terkenal di Indonesia dan menjadi tempat wisata utama bagi para pelancong yang ingin menikmati keindahan alam.",
-      "cosine_sim": [0.0312, 0.0478, 0.0324, 1.0, 0.0824, 0.0, 0.2070, 0.0, 0.0805, 0.0],
-      "vectorizer_vocab": {
-        "bromo": 21,
-        "timur": 129,
-        "gunung": 37,
-        "berapi": 16,
-        "aktif": 0,
-        "pemandangan": 88,
-        "matahari": 76,
-        "terbit": 127
-      }
+      "longdesc": "Gunung Bromo terletak di Jawa Timur, Indonesia, dan dikenal dengan pemandangan matahari terbit yang menakjubkan. Ini adalah salah satu gunung berapi paling terkenal di Indonesia dan menjadi tempat wisata utama bagi para pelancong yang ingin menikmati keindahan alam."
     },
     {
       "id": 5,
@@ -101,17 +52,7 @@
       "location": "Bali",
       "image": "https://example.com/ubud.jpg",
       "shortdesc": "Pusat seni dan kebudayaan di Bali.",
-      "longdesc": "Ubud adalah kawasan yang terletak di Bali, Indonesia, yang dikenal sebagai pusat seni dan budaya Bali. Tempat ini menawarkan berbagai galeri seni, pertunjukan tari, dan pusat kerajinan tangan yang mencerminkan budaya lokal.",
-      "cosine_sim": [0.0728, 0.0769, 0.0, 0.0824, 1.0, 0.1540, 0.0, 0.0641, 0.0, 0.0],
-      "vectorizer_vocab": {
-        "ubud": 133,
-        "bali": 10,
-        "pusat": 96,
-        "seni": 112,
-        "sawah": 107,
-        "hijau": 40,
-        "tanah": 121
-      }
+      "longdesc": "Ubud adalah kawasan yang terletak di Bali, Indonesia, yang dikenal sebagai pusat seni dan budaya Bali. Tempat ini menawarkan berbagai galeri seni, pertunjukan tari, dan pusat kerajinan tangan yang mencerminkan budaya lokal."
     },
     {
       "id": 6,
@@ -120,14 +61,7 @@
       "location": "Bali",
       "image": "https://example.com/kawah-ijen.jpg",
       "shortdesc": "Keindahan kawah vulkanik dengan api biru di Banyuwangi.",
-      "longdesc": "Kawah Ijen, terletak di Banyuwangi, Jawa Timur, Indonesia, terkenal dengan api biru yang langka dan pemandangan kawah vulkanik yang menakjubkan. Kawah ini menarik banyak wisatawan yang ingin menyaksikan fenomena alam yang menakjubkan ini.",
-      "cosine_sim": [0.0, 0.0602, 0.0592, 0.0, 0.1540, 1.0, 0.0, 0.0, 0.0, 0.0],
-      "vectorizer_vocab": {
-        "kawah": 55,
-        "ijen": 43,
-        "api": 5,
-        "biru": 19
-      }
+      "longdesc": "Kawah Ijen, terletak di Banyuwangi, Jawa Timur, Indonesia, terkenal dengan api biru yang langka dan pemandangan kawah vulkanik yang menakjubkan. Kawah ini menarik banyak wisatawan yang ingin menyaksikan fenomena alam yang menakjubkan ini."
     },
     {
       "id": 7,
@@ -136,13 +70,7 @@
       "location": "Bali",
       "image": "https://example.com/bali.jpg",
       "shortdesc": "Destinasi wisata tropis dengan pantai yang indah.",
-      "longdesc": "Bali adalah pulau terkenal di Indonesia, dikenal dengan pantainya yang indah, kebudayaannya yang kaya, dan pariwisatanya yang luar biasa. Tempat ini menawarkan berbagai destinasi wisata mulai dari pantai hingga pegunungan.",
-      "cosine_sim": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0],
-      "vectorizer_vocab": {
-        "bali": 10,
-        "pantai": 3,
-        "wisata": 21
-      }
+      "longdesc": "Bali adalah pulau terkenal di Indonesia, dikenal dengan pantainya yang indah, kebudayaannya yang kaya, dan pariwisatanya yang luar biasa. Tempat ini menawarkan berbagai destinasi wisata mulai dari pantai hingga pegunungan."
     },
     {
       "id": 8,
@@ -151,33 +79,7 @@
       "location": "Banyuwangi, Jawa Timur",
       "image": "https://example.com/kawah_ijen.jpg",
       "shortdesc": "Kawah Ijen adalah kawah vulkanik yang terkenal dengan api biru dan pemandangan matahari terbit yang indah.",
-      "longdesc": "Kawah Ijen adalah kawah aktif yang terletak di Banyuwangi, Jawa Timur. Kawah ini terkenal dengan api biru yang terbentuk akibat pembakaran belerang dan pemandangan matahari terbit yang luar biasa indah.",
-      "cosine_sim": [
-        1.0000000000000002,
-        0.04169499436647555,
-        0.03217241749206121,
-        0.03123517728078843,
-        0.0728278618266121,
-        0.0,
-        0.17271949310206322,
-        0.538009580950545,
-        0.027084512025969697,
-        0.0,
-        0.03320751757049677,
-        0.0,
-        0.15277066090359853,
-        0.027768297703831567
-      ],
-      "vectorizer_vocab": {
-        "kawah": 41,
-        "ijen": 43,
-        "api": 5,
-        "biru": 19,
-        "sulfur": 109,
-        "pemandangan": 88,
-        "indah": 45,
-        "gunung": 37
-      }
+      "longdesc": "Kawah Ijen adalah kawah aktif yang terletak di Banyuwangi, Jawa Timur. Kawah ini terkenal dengan api biru yang terbentuk akibat pembakaran belerang dan pemandangan matahari terbit yang luar biasa indah."
     },
     {
       "id": 9,
@@ -186,31 +88,7 @@
       "location": "Nusa Tenggara Timur",
       "image": "https://example.com/komodo.jpg",
       "shortdesc": "Taman Nasional Komodo adalah rumah bagi komodo, spesies kadal terbesar di dunia.",
-      "longdesc": "Taman Nasional Komodo terletak di Nusa Tenggara Timur dan menjadi rumah bagi komodo, kadal terbesar di dunia. Kawasan ini juga dikenal dengan keindahan bawah lautnya yang memukau dan keanekaragaman hayati yang luar biasa.",
-      "cosine_sim": [
-        0.04169499436647555,
-        1.0000000000000002,
-        0.0,
-        0.04787046818687148,
-        0.07689921315703055,
-        0.06026070072437213,
-        0.1389861887121124,
-        0.03669996611324306,
-        0.0,
-        0.0
-      ],
-      "vectorizer_vocab": {
-        "komodo": 54,
-        "kadall": 63,
-        "spesies": 111,
-        "taman": 24,
-        "nasional": 62,
-        "keanekaragaman": 57,
-        "hayati": 39,
-        "indonesia": 46,
-        "pulau": 27,
-        "tenggara": 120
-      }
+      "longdesc": "Taman Nasional Komodo terletak di Nusa Tenggara Timur dan menjadi rumah bagi komodo, kadal terbesar di dunia. Kawasan ini juga dikenal dengan keindahan bawah lautnya yang memukau dan keanekaragaman hayati yang luar biasa."
     },
     {
       "id": 10,
@@ -219,31 +97,7 @@
       "location": "Magelang, Jawa Tengah",
       "image": "https://example.com/borobudur.jpg",
       "shortdesc": "Candi Borobudur adalah situs warisan dunia UNESCO yang terkenal dengan arsitektur dan relief yang menakjubkan.",
-      "longdesc": "Candi Borobudur terletak di Magelang, Jawa Tengah, dan merupakan salah satu candi Buddha terbesar di dunia. Dibangun pada abad ke-9, candi ini dikenal dengan relief yang menggambarkan ajaran Buddha dan keindahan arsitekturnya.",
-      "cosine_sim": [
-        0.03217241749206121,
-        0.0,
-        1.0000000000000002,
-        0.032386490963571705,
-        0.0,
-        0.0591738410797171,
-        0.03165479820428718,
-        0.0,
-        0.028082834174318335,
-        0.0
-      ],
-      "vectorizer_vocab": {
-        "borobudur": 20,
-        "candi": 26,
-        "unesco": 136,
-        "situs": 115,
-        "warisan": 139,
-        "buddha": 24,
-        "jawa": 50,
-        "tengah": 125,
-        "pilar": 116,
-        "sejarah": 122
-      }
+      "longdesc": "Candi Borobudur terletak di Magelang, Jawa Tengah, dan merupakan salah satu candi Buddha terbesar di dunia. Dibangun pada abad ke-9, candi ini dikenal dengan relief yang menggambarkan ajaran Buddha dan keindahan arsitekturnya."
     },
     {
       "id": 11,
@@ -252,31 +106,7 @@
       "location": "Probolinggo, Jawa Timur",
       "image": "https://example.com/bromo.jpg",
       "shortdesc": "Gunung Bromo terkenal dengan pemandangan matahari terbit dan kawah vulkaniknya yang indah.",
-      "longdesc": "Gunung Bromo terletak di Probolinggo, Jawa Timur, dan merupakan salah satu destinasi wisata yang paling terkenal di Indonesia. Gunung ini menawarkan pemandangan matahari terbit yang memukau dan kawah vulkaniknya yang aktif.",
-      "cosine_sim": [
-        0.03123517728078843,
-        0.04787046818687148,
-        0.032386490963571705,
-        1.0000000000000002,
-        0.08238077807648475,
-        0.0,
-        0.20696419689788942,
-        0.0,
-        0.08054473337450219,
-        0.0
-      ],
-      "vectorizer_vocab": {
-        "gunung": 37,
-        "bromo": 21,
-        "pemandangan": 88,
-        "matahari": 76,
-        "terbit": 127,
-        "indah": 45,
-        "vulkanik": 138,
-        "aktif": 0,
-        "tanjung": 58,
-        "timur": 129
-      }
+      "longdesc": "Gunung Bromo terletak di Probolinggo, Jawa Timur, dan merupakan salah satu destinasi wisata yang paling terkenal di Indonesia. Gunung ini menawarkan pemandangan matahari terbit yang memukau dan kawah vulkaniknya yang aktif."
     },
     {
       "id": 12,
@@ -285,29 +115,7 @@
       "location": "Bali",
       "image": "https://example.com/pantai_kuta.jpg",
       "shortdesc": "Pantai Kuta adalah pantai terkenal di Bali yang menawarkan pemandangan indah dan ombak yang cocok untuk surfing.",
-      "longdesc": "Pantai Kuta terletak di Bali dan terkenal dengan ombaknya yang besar, menjadikannya tempat yang populer untuk surfing. Pantai ini juga memiliki pemandangan matahari terbenam yang sangat indah.",
-      "cosine_sim": [
-        0.0728278618266121,
-        0.07689921315703055,
-        0.0,
-        0.08238077807648475,
-        1.0,
-        0.15404894526824822,
-        0.0,
-        0.06410313999911785,
-        0.0,
-        0.0
-      ],
-      "vectorizer_vocab": {
-        "pantai": 3,
-        "kuta": 61,
-        "bali": 10,
-        "ombak": 79,
-        "surfing": 92,
-        "matahari": 76,
-        "terbenam": 99,
-        "indah": 45
-      }
+      "longdesc": "Pantai Kuta terletak di Bali dan terkenal dengan ombaknya yang besar, menjadikannya tempat yang populer untuk surfing. Pantai ini juga memiliki pemandangan matahari terbenam yang sangat indah."
     },
     {
       "id": 13,
@@ -316,31 +124,7 @@
       "location": "Papua Barat",
       "image": "https://example.com/raja_ampat.jpg",
       "shortdesc": "Raja Ampat terkenal dengan keindahan bawah lautnya dan merupakan destinasi wisata favorit bagi penyelam.",
-      "longdesc": "Raja Ampat terletak di Papua Barat dan terkenal dengan keindahan bawah lautnya yang luar biasa. Pulau ini adalah rumah bagi berbagai spesies laut dan merupakan tempat yang populer bagi para penyelam.",
-      "cosine_sim": [
-        0.0,
-        0.06026070072437213,
-        0.0591738410797171,
-        0.0,
-        0.15404894526824822,
-        1.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "vectorizer_vocab": {
-        "raja": 98,
-        "ampat": 3,
-        "papua": 85,
-        "barat": 12,
-        "laut": 68,
-        "keanekaragaman": 57,
-        "bawah": 23,
-        "selam": 118,
-        "surga": 22,
-        "terumbu": 61
-      }
+      "longdesc": "Raja Ampat terletak di Papua Barat dan terkenal dengan keindahan bawah lautnya yang luar biasa. Pulau ini adalah rumah bagi berbagai spesies laut dan merupakan tempat yang populer bagi para penyelam."
     },
     {
       "id": 14,
@@ -349,31 +133,7 @@
       "location": "Jakarta",
       "image": "https://example.com/taman_mini.jpg",
       "shortdesc": "Taman Mini Indonesia Indah adalah taman budaya yang menggambarkan keberagaman budaya Indonesia.",
-      "longdesc": "Taman Mini Indonesia Indah terletak di Jakarta dan menyajikan replika dari berbagai rumah adat serta budaya Indonesia. Ini adalah tempat yang ideal untuk mengenal keragaman budaya Indonesia dalam satu lokasi.",
-      "cosine_sim": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        1.0000000000000002,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "vectorizer_vocab": {
-        "taman": 24,
-        "mini": 89,
-        "indonesia": 46,
-        "indah": 45,
-        "budaya": 29,
-        "rumah": 58,
-        "adat": 4,
-        "keragaman": 54,
-        "lokasi": 68,
-        "jakarta": 57
-      }
+      "longdesc": "Taman Mini Indonesia Indah terletak di Jakarta dan menyajikan replika dari berbagai rumah adat serta budaya Indonesia. Ini adalah tempat yang ideal untuk mengenal keragaman budaya Indonesia dalam satu lokasi."
     },
     {
       "id": 15,
@@ -382,30 +142,7 @@
       "location": "Yogyakarta",
       "image": "https://example.com/prambanan.jpg",
       "shortdesc": "Candi Prambanan adalah kompleks candi Hindu terbesar di Indonesia yang terletak di Yogyakarta.",
-      "longdesc": "Candi Prambanan adalah situs warisan dunia UNESCO yang terletak di Yogyakarta. Candi ini dibangun pada abad ke-9 dan merupakan contoh arsitektur Hindu yang sangat indah dengan relief yang menggambarkan kisah Ramayana.",
-      "cosine_sim": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        1.0000000000000002,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "vectorizer_vocab": {
-        "candi": 26,
-        "prambanan": 43,
-        "hindu": 45,
-        "yogyakarta": 57,
-        "kompleks": 59,
-        "relief": 98,
-        "ramayana": 99,
-        "situs": 115,
-        "unesco": 136
-      }
+      "longdesc": "Candi Prambanan adalah situs warisan dunia UNESCO yang terletak di Yogyakarta. Candi ini dibangun pada abad ke-9 dan merupakan contoh arsitektur Hindu yang sangat indah dengan relief yang menggambarkan kisah Ramayana."
     },
     {
       "id": 16,
@@ -414,31 +151,7 @@
       "location": "Jakarta",
       "image": "https://example.com/kota_tua.jpg",
       "shortdesc": "Kota Tua Jakarta adalah kawasan bersejarah yang menyimpan banyak bangunan kolonial Belanda.",
-      "longdesc": "Kota Tua Jakarta adalah kawasan yang penuh dengan sejarah dan memiliki berbagai bangunan kolonial Belanda yang masih terawat dengan baik. Tempat ini memberikan nuansa zaman penjajahan dan memiliki daya tarik wisata yang kuat.",
-      "cosine_sim": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        1.0000000000000002,
-        0.0,
-        0.0
-      ],
-      "vectorizer_vocab": {
-        "kota": 75,
-        "tua": 83,
-        "jakarta": 57,
-        "bangunan": 12,
-        "kolonial": 47,
-        "belanda": 15,
-        "sejarah": 122,
-        "wisata": 124,
-        "daya": 22,
-        "tarik": 60
-      }
+      "longdesc": "Kota Tua Jakarta adalah kawasan yang penuh dengan sejarah dan memiliki berbagai bangunan kolonial Belanda yang masih terawat dengan baik. Tempat ini memberikan nuansa zaman penjajahan dan memiliki daya tarik wisata yang kuat."
     },
     {
       "id": 17,
@@ -447,30 +160,7 @@
       "location": "Yogyakarta",
       "image": "https://example.com/taman_sari.jpg",
       "shortdesc": "Taman Sari adalah kompleks istana air yang dibangun pada abad ke-18 oleh Sultan Yogyakarta.",
-      "longdesc": "Taman Sari adalah kompleks istana air yang dibangun oleh Sultan Yogyakarta pada abad ke-18. Tempat ini dulu digunakan untuk beristirahat dan bermeditasi oleh keluarga kerajaan, dengan arsitektur yang sangat unik dan menarik.",
-      "cosine_sim": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        1.0000000000000002,
-        0.0
-      ],
-      "vectorizer_vocab": {
-        "taman": 24,
-        "sari": 29,
-        "istana": 65,
-        "air": 6,
-        "sultan": 107,
-        "yogyakarta": 57,
-        "kerajaan": 53,
-        "unik": 123,
-        "arsitektur": 8
-      }
+      "longdesc": "Taman Sari adalah kompleks istana air yang dibangun oleh Sultan Yogyakarta pada abad ke-18. Tempat ini dulu digunakan untuk beristirahat dan bermeditasi oleh keluarga kerajaan, dengan arsitektur yang sangat unik dan menarik."
     },
     {
       "id": 18,
@@ -479,30 +169,7 @@
       "location": "Jakarta",
       "image": "https://example.com/seribu.jpg",
       "shortdesc": "Kepulauan Seribu adalah destinasi wisata alam yang terletak di utara Jakarta dengan keindahan pantai dan lautnya.",
-      "longdesc": "Kepulauan Seribu adalah serangkaian pulau yang terletak di utara Jakarta. Kepulauan ini menawarkan pemandangan alam yang indah dengan pantai berpasir putih dan perairan yang jernih, cocok untuk aktivitas snorkeling dan diving.",
-      "cosine_sim": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        1.0000000000000002
-      ],
-      "vectorizer_vocab": {
-        "kepulauan": 76,
-        "seribu": 42,
-        "jakarta": 57,
-        "pantai": 3,
-        "laut": 68,
-        "perairan": 88,
-        "jernih": 47,
-        "snorkeling": 108,
-        "diving": 19
-      }
+      "longdesc": "Kepulauan Seribu adalah serangkaian pulau yang terletak di utara Jakarta. Kepulauan ini menawarkan pemandangan alam yang indah dengan pantai berpasir putih dan perairan yang jernih, cocok untuk aktivitas snorkeling dan diving."
     },
     {
       "id": 19,
@@ -511,30 +178,7 @@
       "location": "Cianjur, Jawa Barat",
       "image": "https://example.com/taman_bunga.jpg",
       "shortdesc": "Taman Bunga Nusantara adalah taman yang memiliki berbagai jenis bunga dengan tema taman yang berbeda-beda.",
-      "longdesc": "Taman Bunga Nusantara terletak di Cianjur, Jawa Barat, dan memiliki berbagai jenis bunga yang ditata dalam tema taman yang berbeda-beda. Ini adalah tempat yang ideal untuk menikmati keindahan alam dan belajar tentang berbagai jenis flora.",
-      "cosine_sim": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "vectorizer_vocab": {
-        "taman": 24,
-        "bunga": 11,
-        "nusantara": 49,
-        "cianjur": 35,
-        "flora": 56,
-        "keindahan": 59,
-        "alam": 14,
-        "berbeda": 19,
-        "jenis": 52
-      }
+      "longdesc": "Taman Bunga Nusantara terletak di Cianjur, Jawa Barat, dan memiliki berbagai jenis bunga yang ditata dalam tema taman yang berbeda-beda. Ini adalah tempat yang ideal untuk menikmati keindahan alam dan belajar tentang berbagai jenis flora."
     },
     {
       "id": 20,
@@ -543,31 +187,7 @@
       "location": "Sumatera Selatan",
       "image": "https://example.com/belitung.jpg",
       "shortdesc": "Pulau Belitung terkenal dengan pantainya yang indah dan batu granit besar yang khas.",
-      "longdesc": "Pulau Belitung terletak di Sumatera Selatan dan dikenal dengan pantainya yang indah serta batu granit besar yang khas. Pulau ini juga terkenal dengan keindahan bawah laut yang cocok untuk snorkeling dan diving.",
-      "cosine_sim": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "vectorizer_vocab": {
-        "pulau": 27,
-        "belitung": 13,
-        "sumatera": 110,
-        "selatan": 107,
-        "pantai": 3,
-        "batu": 11,
-        "granit": 49,
-        "indah": 45,
-        "snorkeling": 108,
-        "diving": 19
-      }
+      "longdesc": "Pulau Belitung terletak di Sumatera Selatan dan dikenal dengan pantainya yang indah serta batu granit besar yang khas. Pulau ini juga terkenal dengan keindahan bawah laut yang cocok untuk snorkeling dan diving."
     }
   ]
 }
