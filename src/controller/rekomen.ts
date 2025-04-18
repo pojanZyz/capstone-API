@@ -3,12 +3,15 @@ import fs from 'fs';
 
 // Definisi tipe data
 interface Wisata {
-  id: number;
-  nama: string;
-  lokasi: string;
-  kategori: string;
-  deskripsi: string;
-}
+    "id": number,
+    "title": string,
+    "category": "Wisata" | "Budaya",
+    "location": string,
+    "image": string,
+    "shortdesc": string,
+    "longdesc": string
+  }
+  
 
 interface ModelData {
   data: Wisata[];
@@ -29,7 +32,7 @@ const rekomendasi = (req: Request, res: Response) => {
 
   // Cari indeks berdasarkan nama (case-insensitive, cocok sebagian)
   const index = model.data.findIndex(w =>
-    w.nama.toLowerCase().includes(query.toLowerCase())
+    w.title.toLowerCase().includes(query.toLowerCase())
   );
 
   if (index === -1) {
@@ -45,10 +48,12 @@ const rekomendasi = (req: Request, res: Response) => {
     .slice(0, 5)
     .map(item => ({
       id: item.wisata.id,
-      nama: item.wisata.nama,
-      lokasi: item.wisata.lokasi,
-      kategori: item.wisata.kategori,
-      deskripsi: item.wisata.deskripsi,
+      title: item.wisata.title,
+      category: item.wisata.category,
+      location: item.wisata.location,
+      image: item.wisata.image,
+      shortdesc: item.wisata.shortdesc,
+      longdesc: item.wisata.longdesc,
       skor_kemiripan: item.score.toFixed(3)
     }));
 
